@@ -2247,8 +2247,8 @@
       </div>
     </div>
     <pre><code><span class="shell-comment"># 1. Clone the repository</span>
-<span class="shell-prompt">$</span> git clone https://github.com/fedcloud/formal-verification-gateway.git
-<span class="shell-prompt">$</span> cd formal-verification-gateway
+<span class="shell-prompt">$</span> git clone https://github.com/j-arndt/fedcloud.git
+<span class="shell-prompt">$</span> cd fedcloud
 
 <span class="shell-comment"># 2. Install Python dependencies</span>
 <span class="shell-prompt">$</span> python -m venv .venv <span class="shell-comment">&amp;&amp;</span> source .venv/bin/activate
@@ -2328,7 +2328,7 @@
       </div>
     </div>
     <pre><code><span class="shell-comment"># Pull the published image</span>
-<span class="shell-prompt">$</span> docker pull ghcr.io/fedcloud/formal-verification-gateway:latest
+<span class="shell-prompt">$</span> docker pull ghcr.io/j-arndt/fedcloud:latest
 
 <span class="shell-comment"># Run a full pipeline pass (bind-mount credentials and output directory)</span>
 <span class="shell-prompt">$</span> docker run <span class="shell-flag">--rm</span> \
@@ -2336,7 +2336,7 @@
     <span class="shell-flag">-e</span> AWS_SECRET_ACCESS_KEY \
     <span class="shell-flag">-e</span> AWS_DEFAULT_REGION=us-east-1 \
     <span class="shell-flag">-v</span> <span class="shell-path">$(pwd)/oscal-output:/output</span> \
-    ghcr.io/fedcloud/formal-verification-gateway:latest \
+    ghcr.io/j-arndt/fedcloud:latest \
     python run_pipeline.py <span class="shell-flag">--oscal-out</span> <span class="shell-path">/output</span>
 
 <span class="shell-comment"># Build image locally</span>
@@ -2652,7 +2652,7 @@
         <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
       </div>
     </div>
-    <pre><code>formal-verification-gateway/
+    <pre><code>fedcloud/
 <span class="shell-comment">├── agents/                        # Engine 2 — Bedrock agent definitions</span>
 <span class="shell-comment">│   ├── personnel/                 # KSI-PS: background check + IAM timing</span>
 <span class="shell-comment">│   │   ├── agent_spec.json        # Bedrock Agent API definition</span>
@@ -2751,9 +2751,9 @@ logging:
       <div class="footer-col">
         <h5>Resources</h5>
         <ul>
-          <li><a href="https://github.com/fedcloud/formal-verification-gateway" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
-          <li><a href="https://github.com/fedcloud/formal-verification-gateway/releases" target="_blank" rel="noopener noreferrer">Releases &amp; Changelog</a></li>
-          <li><a href="https://github.com/fedcloud/formal-verification-gateway/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
+          <li><a href="https://github.com/j-arndt/fedcloud" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+          <li><a href="https://github.com/j-arndt/fedcloud/releases" target="_blank" rel="noopener noreferrer">Releases &amp; Changelog</a></li>
+          <li><a href="https://github.com/j-arndt/fedcloud/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
           <li><a href="https://leanprover.github.io/lean4/doc/" target="_blank" rel="noopener noreferrer">Lean 4 Documentation</a></li>
         </ul>
       </div>
