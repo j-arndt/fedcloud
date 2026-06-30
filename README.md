@@ -17,24 +17,73 @@ FedCloud automates continuous compliance verification using a hybrid dual-engine
 
 ## Architecture
 
-```
-                               ┌────────────────────────┐
-                               │   Raw Telemetry Ingest  │
-                               └───────────┬────────────┘
-                                           │
-                    ┌──────────────────────┴──────────────────────┐
-                    ▼                                             ▼
-       ┌────────────────────────┐                    ┌────────────────────────┐
-       │     Lean 4 Kernel      │                    │   Amazon Bedrock       │
-       │  (Deterministic Proofs)│                    │   (Qualitative Agents) │
-       └────────────┬───────────┘                    └────────────┬───────────┘
-                    │                                             │
-                    └──────────────────┬──────────────────────────┘
-                                       ▼
-                          ┌────────────────────────┐
-                          │   OSCAL Assembler       │
-                          │  (Unified Compliance)   │
-                          └────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph INGEST["① Telemetry Ingestion"]
+        CT["AWS CloudTrail"]
+        CFG["AWS Config"]
+        EB["EventBridge"]
+        S3["S3 Uploads<br/><small>PDFs · SBOMs · Certs</small>"]
+        APP["App Metadata<br/><small>Tyler · LMS · HR</small>"]
+    end
+
+    ROUTER{"② Lambda Router<br/><code>agents/router.py</code>"}
+
+    CT & CFG & EB --> ROUTER
+    S3 & APP --> ROUTER
+
+    subgraph LEAN["③ Lean 4 Kernel — Deterministic Proofs"]
+        direction LR
+        L1["🔐 Identity &amp; Access<br/><small>AC · IA controls</small>"]
+        L2["🔑 Cryptographic<br/><small>SC controls</small>"]
+        L3["🏗️ Architecture<br/><small>CM · SC · SI controls</small>"]
+        L4["📊 Monitoring<br/><small>AU · SI controls</small>"]
+    end
+
+    subgraph BEDROCK["④ Amazon Bedrock Agents — Qualitative Analysis"]
+        direction LR
+        B1["👤 Personnel<br/><small>PS controls</small>"]
+        B2["🎓 Training<br/><small>AT controls</small>"]
+        B3["🚨 Incident Response<br/><small>IR controls</small>"]
+        B4["🔄 Recovery<br/><small>CP controls</small>"]
+        B5["📦 Supply Chain<br/><small>SA · SR controls</small>"]
+    end
+
+    subgraph GUARD["⑤ Guardrails"]
+        direction LR
+        RAG["RAG Grounding"]
+        JSON["JSON Schema"]
+        CITE["Citation Check"]
+        HALL["Hallucination Detection"]
+    end
+
+    ROUTER -- "State JSON<br/><small>deterministic</small>" --> LEAN
+    ROUTER -- "Documents &amp; Logs<br/><small>qualitative</small>" --> BEDROCK
+    BEDROCK --> GUARD
+
+    subgraph OSCAL["⑥ OSCAL Assembler"]
+        RECEIPT["Signed Receipt<br/><small>HMAC-SHA256</small>"]
+        SSP["System Security Plan<br/><small>FedRAMP Moderate</small>"]
+        AR["Assessment Results<br/><small>OSCAL 1.1.2</small>"]
+        NAR["Audit Narratives<br/><small>Markdown + Citations</small>"]
+    end
+
+    LEAN --> RECEIPT
+    GUARD --> RECEIPT
+    RECEIPT --> SSP
+    RECEIPT --> AR
+    RECEIPT --> NAR
+
+    CONMON["⑦ Continuous Authorization<br/>Federal Gateway"]
+    SSP & AR & NAR --> CONMON
+
+    style INGEST fill:#1e293b,stroke:#334155,color:#e2e8f0
+    style LEAN fill:#1e3a5f,stroke:#3b82f6,color:#e2e8f0
+    style BEDROCK fill:#3b1f4a,stroke:#a855f7,color:#e2e8f0
+    style GUARD fill:#1a2e1a,stroke:#22c55e,color:#e2e8f0
+    style OSCAL fill:#2d1f0e,stroke:#f59e0b,color:#e2e8f0
+    style ROUTER fill:#0f172a,stroke:#60a5fa,color:#e2e8f0
+    style CONMON fill:#0f172a,stroke:#10b981,color:#e2e8f0
 ```
 
 ## Hybrid Architecture
