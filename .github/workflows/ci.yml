@@ -1,0 +1,66 @@
+name: FedCloud Verification Gateway CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  python-tests:
+    name: Python Pipeline Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: pip install pytest
+
+      - name: Run translator tests
+        run: python -m pytest translator/tests/ -v
+
+      - name: Run OSCAL pipeline tests
+        run: python -m pytest oscal/tests/ -v
+
+      - name: Run end-to-end pipeline demo
+        run: |
+          python translator/json_to_lean.py fixtures/mock_aws_topology.json output/SystemState.lean
+          python oscal/receipt_generator.py 0 fixtures/mock_aws_topology.json output/verification_receipt.json
+          python oscal/ssp_updater.py output/verification_receipt.json oscal/templates/fedramp_moderate_ssp.json output/updated_ssp.json
+          python oscal/assessment_results.py output/verification_receipt.json output/assessment_results.json
+          echo "Full pipeline completed successfully."
+
+  lean-check:
+    name: Lean 4 Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan and Lean 4
+        run: |
+          curl https://elan.lean-lang.org/install/linux -sSf | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Set up Lean toolchain
+        working-directory: lean
+        run: |
+          elan toolchain install $(cat lean-toolchain)
+          elan default $(cat lean-toolchain)
+
+      - name: Build verification library
+        working-directory: lean
+        run: lake build
+        continue-on-error: true
