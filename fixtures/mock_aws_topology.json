@@ -1,0 +1,76 @@
+{
+  "sessions": [
+    {
+      "user_id": "arn:aws:iam::123456789012:user/admin-ops",
+      "is_privileged": true,
+      "has_phishing_resistant_mfa": true,
+      "token_lifetime_minutes": 30
+    },
+    {
+      "user_id": "arn:aws:iam::123456789012:user/dev-engineer-1",
+      "is_privileged": false,
+      "has_phishing_resistant_mfa": true,
+      "token_lifetime_minutes": 480
+    },
+    {
+      "user_id": "arn:aws:iam::123456789012:role/ci-deploy-role",
+      "is_privileged": true,
+      "has_phishing_resistant_mfa": true,
+      "token_lifetime_minutes": 15
+    }
+  ],
+  "databases": [
+    {
+      "id": "arn:aws:rds:us-east-1:123456789012:db:prod-main",
+      "contains_federal_data": true,
+      "is_encrypted_at_rest": true,
+      "cryptographic_module_standard": "FIPS-140-3"
+    },
+    {
+      "id": "arn:aws:s3:::fedcloud-audit-logs-prod",
+      "contains_federal_data": true,
+      "is_encrypted_at_rest": true,
+      "cryptographic_module_standard": "FIPS-140-3"
+    },
+    {
+      "id": "arn:aws:elasticache:us-east-1:123456789012:cluster:session-cache",
+      "contains_federal_data": false,
+      "is_encrypted_at_rest": true,
+      "cryptographic_module_standard": "AES-256"
+    }
+  ],
+  "compute": [
+    {
+      "id": "arn:aws:eks:us-east-1:123456789012:nodegroup/prod/node-group-a",
+      "immutable_image_signature_valid": true,
+      "allows_interactive_shell_access": false,
+      "network_ingress_anywhere": false
+    },
+    {
+      "id": "arn:aws:ecs:us-east-1:123456789012:task/verification-engine",
+      "immutable_image_signature_valid": true,
+      "allows_interactive_shell_access": false,
+      "network_ingress_anywhere": false
+    }
+  ],
+  "log_streams": [
+    {
+      "source_id": "arn:aws:cloudtrail:us-east-1:123456789012:trail/org-trail",
+      "is_actively_streaming": true,
+      "destination_is_tamper_evident": true,
+      "retention_days": 730
+    },
+    {
+      "source_id": "arn:aws:logs:us-east-1:123456789012:log-group:/aws/vpc/flowlogs",
+      "is_actively_streaming": true,
+      "destination_is_tamper_evident": true,
+      "retention_days": 365
+    },
+    {
+      "source_id": "arn:aws:logs:us-east-1:123456789012:log-group:/fedcloud/application",
+      "is_actively_streaming": true,
+      "destination_is_tamper_evident": true,
+      "retention_days": 365
+    }
+  ]
+}

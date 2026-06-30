@@ -1,0 +1,118 @@
+{
+  "system-security-plan": {
+    "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "metadata": {
+      "title": "FedCloud Formal Verification Gateway — System Security Plan",
+      "last-modified": "2026-06-29T00:00:00Z",
+      "version": "1.0.0-poc",
+      "oscal-version": "1.1.2",
+      "roles": [
+        {
+          "id": "system-owner",
+          "title": "System Owner"
+        },
+        {
+          "id": "authorizing-official",
+          "title": "Authorizing Official"
+        },
+        {
+          "id": "information-system-security-officer",
+          "title": "Information System Security Officer (ISSO)"
+        }
+      ],
+      "parties": [
+        {
+          "uuid": "f1e2d3c4-b5a6-7890-fedc-ba0987654321",
+          "type": "organization",
+          "name": "Federal Cloud Authorization Program"
+        }
+      ],
+      "props": [
+        {
+          "name": "authorization-baseline",
+          "value": "FedRAMP Moderate"
+        },
+        {
+          "name": "verification-method",
+          "value": "Formal Mathematical Proof (Lean 4)"
+        }
+      ]
+    },
+    "import-profile": {
+      "href": "https://raw.githubusercontent.com/GSA/fedramp-automation/master/baselines/rev5/json/FedRAMP_rev5_MODERATE-baseline-resolved-profile_catalog.json"
+    },
+    "system-characteristics": {
+      "system-name": "FedCloud Formal Verification Gateway",
+      "system-name-short": "FedCloud-FVG",
+      "description": "An automated compliance verification system that uses the Lean 4 interactive theorem prover to mathematically prove that cloud infrastructure configurations satisfy federal security requirements. Replaces narrative compliance documentation with deterministic formal proofs.",
+      "security-sensitivity-level": "moderate",
+      "system-information": {
+        "information-types": [
+          {
+            "title": "Infrastructure Configuration Data",
+            "description": "Cloud resource configurations, IAM policies, encryption settings, and network topology metadata.",
+            "categorizations": [
+              {
+                "system": "https://doi.org/10.6028/NIST.SP.800-60v2r1",
+                "information-type-ids": ["C.3.5.8"]
+              }
+            ],
+            "confidentiality-impact": { "base": "moderate" },
+            "integrity-impact": { "base": "moderate" },
+            "availability-impact": { "base": "low" }
+          }
+        ]
+      },
+      "security-impact-level": {
+        "security-objective-confidentiality": "moderate",
+        "security-objective-integrity": "moderate",
+        "security-objective-availability": "low"
+      },
+      "status": { "state": "operational" },
+      "authorization-boundary": {
+        "description": "The authorization boundary encompasses the formal verification gateway engine, the state ingestion pipeline, the JSON-to-Lean translator, the OSCAL synthesis service, and all supporting infrastructure within the security operations VPC."
+      }
+    },
+    "system-implementation": {
+      "users": [
+        {
+          "uuid": "a1a1a1a1-b2b2-c3c3-d4d4-e5e5e5e5e5e5",
+          "title": "System Administrator",
+          "role-ids": ["system-owner"],
+          "props": [
+            { "name": "privilege-level", "value": "privileged" },
+            { "name": "authentication-method", "value": "phishing-resistant-mfa" }
+          ]
+        }
+      ],
+      "components": [
+        {
+          "type": "software",
+          "title": "Formal Verification Gateway Engine",
+          "description": "Lean 4 theorem prover kernel that evaluates security invariants against infrastructure state. Pending initial verification run.",
+          "status": { "state": "operational" },
+          "props": [
+            { "name": "verification-status", "value": "PENDING" },
+            { "name": "verification-engine", "value": "FedCloud Lean4 Gateway v0.1.0" }
+          ]
+        },
+        {
+          "type": "software",
+          "title": "State Ingestion Pipeline",
+          "description": "Event-driven service that collects infrastructure state from AWS Config, CloudTrail, EventBridge, and application APIs.",
+          "status": { "state": "operational" }
+        },
+        {
+          "type": "software",
+          "title": "OSCAL Synthesis Service",
+          "description": "Converts verification receipts into machine-readable OSCAL SSP updates and Assessment Results.",
+          "status": { "state": "operational" }
+        }
+      ]
+    },
+    "control-implementation": {
+      "description": "Controls are implemented through formal mathematical verification. Each control family maps to an invariant theorem that is continuously evaluated by the Lean 4 proof engine.",
+      "implemented-requirements": []
+    }
+  }
+}

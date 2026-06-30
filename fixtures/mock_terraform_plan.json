@@ -1,0 +1,82 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.9.0",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_rds_cluster.production",
+          "type": "aws_rds_cluster",
+          "name": "production",
+          "values": {
+            "cluster_identifier": "fedcloud-prod",
+            "engine": "aurora-postgresql",
+            "engine_version": "15.4",
+            "storage_encrypted": true,
+            "kms_key_id": "arn:aws:kms:us-east-1:123456789012:key/fedcloud-rds-key",
+            "deletion_protection": true,
+            "backup_retention_period": 35,
+            "preferred_backup_window": "03:00-04:00"
+          }
+        },
+        {
+          "address": "aws_s3_bucket.audit_logs",
+          "type": "aws_s3_bucket",
+          "name": "audit_logs",
+          "values": {
+            "bucket": "fedcloud-audit-logs-prod",
+            "server_side_encryption_configuration": {
+              "rule": {
+                "apply_server_side_encryption_by_default": {
+                  "sse_algorithm": "aws:kms",
+                  "kms_master_key_id": "arn:aws:kms:us-east-1:123456789012:key/fedcloud-s3-key"
+                }
+              }
+            },
+            "versioning": { "enabled": true }
+          }
+        },
+        {
+          "address": "aws_eks_node_group.production",
+          "type": "aws_eks_node_group",
+          "name": "production",
+          "values": {
+            "cluster_name": "fedcloud-prod",
+            "node_group_name": "managed-workers",
+            "instance_types": ["m6i.xlarge"],
+            "ami_type": "BOTTLEROCKET_x86_64",
+            "container_definitions": true,
+            "associate_public_ip_address": false,
+            "scaling_config": {
+              "desired_size": 3,
+              "max_size": 6,
+              "min_size": 2
+            }
+          }
+        },
+        {
+          "address": "aws_cloudwatch_log_group.application",
+          "type": "aws_cloudwatch_log_group",
+          "name": "application",
+          "values": {
+            "name": "/fedcloud/application",
+            "retention_in_days": 365,
+            "kms_key_id": "arn:aws:kms:us-east-1:123456789012:key/fedcloud-logs-key"
+          }
+        },
+        {
+          "address": "aws_cloudtrail.organization",
+          "type": "aws_cloudtrail",
+          "name": "organization",
+          "values": {
+            "name": "fedcloud-org-trail",
+            "is_multi_region_trail": true,
+            "enable_log_file_validation": true,
+            "s3_bucket_name": "fedcloud-audit-logs-prod",
+            "kms_key_id": "arn:aws:kms:us-east-1:123456789012:key/fedcloud-trail-key"
+          }
+        }
+      ]
+    }
+  }
+}

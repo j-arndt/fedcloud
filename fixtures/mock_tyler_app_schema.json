@@ -1,0 +1,50 @@
+{
+  "application": "Tyler Technologies ERP Platform",
+  "version": "2024.3.1",
+  "tenant_id": "fedcloud-gov-001",
+  "sessions": [
+    {
+      "user_id": "tyler-admin@agency.gov",
+      "is_privileged": true,
+      "has_phishing_resistant_mfa": true,
+      "token_lifetime_minutes": 45
+    },
+    {
+      "user_id": "tyler-readonly@agency.gov",
+      "is_privileged": false,
+      "has_phishing_resistant_mfa": true,
+      "token_lifetime_minutes": 480
+    }
+  ],
+  "databases": [
+    {
+      "id": "tyler-erp-prod-db",
+      "contains_federal_data": true,
+      "is_encrypted_at_rest": true,
+      "cryptographic_module_standard": "FIPS-140-3"
+    },
+    {
+      "id": "tyler-erp-reporting-db",
+      "contains_federal_data": true,
+      "is_encrypted_at_rest": true,
+      "cryptographic_module_standard": "FIPS-140-3"
+    }
+  ],
+  "access_control": {
+    "rbac_enabled": true,
+    "role_definitions": [
+      {
+        "role": "SystemAdministrator",
+        "max_session_duration_minutes": 45,
+        "requires_mfa": true,
+        "mfa_type": "FIDO2"
+      },
+      {
+        "role": "ReadOnlyUser",
+        "max_session_duration_minutes": 480,
+        "requires_mfa": true,
+        "mfa_type": "TOTP"
+      }
+    ]
+  }
+}

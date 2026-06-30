@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FedCloud Formal Verification Gateway — Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ─── Reset & Base ─────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:        #0f172a;
+    --navy-mid:    #1e293b;
+    --navy-light:  #334155;
+    --slate:       #475569;
+    --slate-light: #64748b;
+    --border:      #e2e8f0;
+    --border-dark: #334155;
+    --white:       #ffffff;
+    --off-white:   #f8fafc;
+    --text:        #1e293b;
+    --text-muted:  #64748b;
+
+    --blue:        #3b82f6;
+    --blue-light:  #60a5fa;
+    --blue-bg:     #eff6ff;
+    --blue-badge:  #dbeafe;
+    --blue-text:   #1d4ed8;
+
+    --green:       #10b981;
+    --green-light: #34d399;
+    --green-bg:    #ecfdf5;
+    --green-badge: #d1fae5;
+    --green-text:  #065f46;
+
+    --amber:       #f59e0b;
+    --amber-light: #fbbf24;
+    --amber-bg:    #fffbeb;
+    --amber-badge: #fef3c7;
+    --amber-text:  #92400e;
+
+    --purple:      #8b5cf6;
+    --purple-bg:   #f5f3ff;
+    --purple-badge:#ede9fe;
+    --purple-text: #5b21b6;
+
+    --code-bg:     #1e293b;
+    --code-border: #334155;
+
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --radius-sm: 4px;
+    --radius:    8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow:    0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+  }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--text);
+    background: var(--off-white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Typography ───────────────────────────────────────────────────── */
+  h1, h2, h3, h4 { font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; }
+  h2 { font-size: 1.75rem; color: var(--navy); margin-bottom: 0.5rem; }
+  h3 { font-size: 1.2rem; color: var(--navy); margin-bottom: 0.4rem; }
+  h4 { font-size: 0.95rem; color: var(--text); margin-bottom: 0.35rem; }
+  p  { margin-bottom: 1rem; color: var(--text); line-height: 1.7; }
+  p:last-child { margin-bottom: 0; }
+  a  { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+  li { margin-bottom: 0.35rem; line-height: 1.6; }
+  strong { font-weight: 600; }
+
+  /* ─── Layout ───────────────────────────────────────────────────────── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ─── Sticky Nav ───────────────────────────────────────────────────── */
+  nav.topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    border-bottom: 1px solid var(--navy-light);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  }
+
+  .topnav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+  }
+
+  .topnav-brand {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--green-light);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .topnav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  .topnav-links li a {
+    display: block;
+    padding: 0 0.75rem;
+    height: 52px;
+    line-height: 52px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: #94a3b8;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+    text-transform: uppercase;
+  }
+
+  .topnav-links li a:hover {
+    color: var(--white);
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* ─── Hero ─────────────────────────────────────────────────────────── */
+  .hero {
+    background: var(--navy);
+    padding: 5rem 1.5rem 4rem;
+    text-align: left;
+  }
+
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.25);
+    border-radius: 4px;
+    padding: 0.25rem 0.65rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-light);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+    max-width: 720px;
+  }
+
+  .hero h1 span {
+    color: var(--blue-light);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: #94a3b8;
+    max-width: 620px;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .hero-meta-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .hero-meta-value {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--slate-light);
+  }
+
+  /* ─── Section Wrapper ──────────────────────────────────────────────── */
+  .section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section:last-of-type { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--blue);
+    background: var(--blue-badge);
+    border: 1px solid #bfdbfe;
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    margin-top: 0.35rem;
+    white-space: nowrap;
+  }
+
+  .section-title-block h2 { margin-bottom: 0.3rem; }
+
+  .section-title-block p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* ─── Callout / Info Box ───────────────────────────────────────────── */
+  .callout {
+    background: var(--blue-bg);
+    border: 1px solid #bfdbfe;
+    border-left: 4px solid var(--blue);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #1e3a5f;
+    line-height: 1.65;
+  }
+
+  .callout strong { color: var(--blue-text); }
+
+  .callout-green {
+    background: var(--green-bg);
+    border-color: #a7f3d0;
+    border-left-color: var(--green);
+    color: #064e3b;
+  }
+
+  .callout-amber {
+    background: var(--amber-bg);
+    border-color: #fde68a;
+    border-left-color: var(--amber);
+    color: #78350f;
+  }
+
+  /* ─── Architecture Diagram ─────────────────────────────────────────── */
+  .arch-diagram {
+    margin: 2rem 0;
+    position: relative;
+  }
+
+  .arch-pipeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    background: var(--navy);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .arch-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0.75rem 1.25rem;
+    text-align: center;
+    position: relative;
+    border-right: 1px solid var(--border-dark);
+    transition: background 0.2s;
+  }
+
+  .arch-stage:last-child { border-right: none; }
+
+  .arch-stage::after {
+    content: '→';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--slate);
+    font-size: 1rem;
+    z-index: 2;
+    font-weight: 300;
+  }
+
+  .arch-stage:last-child::after { display: none; }
+
+  .arch-stage-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .arch-stage-num {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--slate-light);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .arch-stage-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+  }
+
+  .arch-stage-sub {
+    font-size: 0.62rem;
+    color: var(--slate-light);
+    margin-top: 0.35rem;
+    line-height: 1.4;
+  }
+
+  .stage-1 .arch-stage-icon { background: rgba(96,165,250,0.15); }
+  .stage-2 .arch-stage-icon { background: rgba(52,211,153,0.15); }
+  .stage-3 .arch-stage-icon { background: rgba(251,191,36,0.15); }
+  .stage-4 .arch-stage-icon { background: rgba(167,139,250,0.15); }
+  .stage-5 .arch-stage-icon { background: rgba(251,113,133,0.15); }
+  .stage-6 .arch-stage-icon { background: rgba(34,197,94,0.15); }
+
+  /* ─── Stage Detail Cards ───────────────────────────────────────────── */
+  .stage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .stage-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .stage-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .stage-card-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .stage-card h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 0;
+  }
+
+  .stage-card p {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ─── Security Cluster ─────────────────────────────────────────────── */
+  .cluster-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cluster-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .cluster-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .cluster-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .cluster-title-group h3 {
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .cluster-title-group p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin: 0.15rem 0 0;
+  }
+
+  .badge-group { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  .badge-blue   { background: var(--blue-badge);   color: var(--blue-text);   border: 1px solid #93c5fd; }
+  .badge-green  { background: var(--green-badge);  color: var(--green-text);  border: 1px solid #6ee7b7; }
+  .badge-amber  { background: var(--amber-badge);  color: var(--amber-text);  border: 1px solid #fcd34d; }
+  .badge-purple { background: var(--purple-badge); color: var(--purple-text); border: 1px solid #c4b5fd; }
+
+  .cluster-body { padding: 1.5rem; }
+
+  .cluster-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .telemetry-box, .output-box {
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+  }
+
+  .telemetry-box h4, .output-box h4 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 0.6rem;
+  }
+
+  .telemetry-box ul { margin: 0; padding: 0; list-style: none; }
+  .telemetry-box ul li {
+    font-size: 0.82rem;
+    color: var(--text);
+    padding: 0.22rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .telemetry-box ul li:last-child { border-bottom: none; }
+
+  .telemetry-box ul li::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--slate-light);
+    flex-shrink: 0;
+  }
+
+  .output-box p {
+    font-size: 0.83rem;
+    margin: 0;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .output-verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--green-text);
+    background: var(--green-badge);
+    border: 1px solid #6ee7b7;
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+
+  .output-verdict::before {
+    content: '✓';
+    font-style: normal;
+  }
+
+  /* ─── Code Blocks ──────────────────────────────────────────────────── */
+  .code-block-wrap {
+    margin: 1.25rem 0;
+    border: 1px solid var(--code-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--code-bg);
+  }
+
+  .code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 1rem;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--code-border);
+  }
+
+  .code-lang {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-light);
+  }
+
+  .code-dots {
+    display: flex;
+    gap: 5px;
+  }
+
+  .code-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+
+  .code-dot:nth-child(1) { background: #ff5f56; }
+  .code-dot:nth-child(2) { background: #ffbd2e; }
+  .code-dot:nth-child(3) { background: #27c93f; }
+
+  pre {
+    font-family: var(--font-mono);
+    font-size: 0.83rem;
+    line-height: 1.75;
+    color: #e2e8f0;
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.83em;
+    background: rgba(30,41,59,0.6);
+    border: 1px solid #334155;
+    border-radius: 3px;
+    padding: 0.1rem 0.35rem;
+    color: #e2e8f0;
+  }
+
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  /* Lean 4 syntax highlighting */
+  .kw   { color: #60a5fa; font-weight: 500; }   /* keyword */
+  .ty   { color: #34d399; }                      /* type */
+  .str  { color: #fbbf24; }                      /* string */
+  .cm   { color: #94a3b8; font-style: italic; }  /* comment */
+  .op   { color: #f9a8d4; }                      /* operator */
+  .fn   { color: #a78bfa; }                      /* function/theorem name */
+  .num  { color: #fdba74; }                      /* number */
+  .var  { color: #e2e8f0; }                      /* variable */
+  .punc { color: #cbd5e1; }                      /* punctuation */
+
+  /* ─── CLI / Shell Code ─────────────────────────────────────────────── */
+  .shell-block pre {
+    color: #e2e8f0;
+  }
+
+  .shell-prompt { color: var(--green-light); }
+  .shell-comment { color: #94a3b8; font-style: italic; }
+  .shell-flag { color: #fbbf24; }
+  .shell-path { color: #a78bfa; }
+
+  /* ─── OSCAL / JSON Code ────────────────────────────────────────────── */
+  .json-key   { color: #60a5fa; }
+  .json-str   { color: #34d399; }
+  .json-num   { color: #fbbf24; }
+  .json-bool  { color: #f9a8d4; }
+  .json-null  { color: #94a3b8; }
+  .json-punc  { color: #94a3b8; }
+
+  /* ─── Info Table ───────────────────────────────────────────────────── */
+  table.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.87rem;
+    margin: 1.25rem 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  table.info-table thead tr {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  table.info-table thead th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  table.info-table tbody tr {
+    border-bottom: 1px solid var(--border);
+  }
+
+  table.info-table tbody tr:last-child { border-bottom: none; }
+
+  table.info-table tbody tr:nth-child(even) {
+    background: var(--off-white);
+  }
+
+  table.info-table tbody td {
+    padding: 0.7rem 1rem;
+    vertical-align: top;
+    line-height: 1.55;
+  }
+
+  table.info-table td:first-child {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--blue);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ─── Step List ────────────────────────────────────────────────────── */
+  .step-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0;
+    counter-reset: steps;
+  }
+
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .step-list li:last-child { border-bottom: none; }
+
+  .step-list li::before {
+    content: counter(steps);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+  }
+
+  .step-list li div {
+    flex: 1;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .step-list li strong { display: block; font-size: 0.92rem; margin-bottom: 0.25rem; }
+
+  /* ─── Output Artifacts ─────────────────────────────────────────────── */
+  .artifact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.25rem 0;
+  }
+
+  .artifact-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .artifact-card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .artifact-card h4 {
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .artifact-card p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* ─── Prerequisites ────────────────────────────────────────────────── */
+  .prereq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.25rem 0;
+  }
+
+  .prereq-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .prereq-icon {
+    font-size: 1.1rem;
+    margin-top: 0.05rem;
+    flex-shrink: 0;
+  }
+
+  .prereq-item strong { display: block; font-size: 0.88rem; margin-bottom: 0.15rem; }
+  .prereq-item span   { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* ─── Two-column layout ────────────────────────────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  /* ─── Footer ───────────────────────────────────────────────────────── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid var(--navy-light);
+    padding: 3rem 1.5rem 2rem;
+    margin-top: 0;
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--navy-light);
+  }
+
+  .footer-brand {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.8rem;
+    color: #64748b;
+    line-height: 1.6;
+  }
+
+  .footer-col h5 {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-col ul li { margin-bottom: 0.4rem; }
+
+  .footer-col ul li a {
+    font-size: 0.82rem;
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-col ul li a:hover { color: var(--white); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: #475569;
+  }
+
+  .footer-version {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--slate-light);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-dark);
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* ─── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .hero h1 { font-size: 1.9rem; }
+    .arch-pipeline { grid-template-columns: repeat(3, 1fr); }
+    .arch-stage:nth-child(3) { border-right: none; }
+    .arch-stage:nth-child(3)::after { display: none; }
+    .stage-grid, .cluster-grid, .two-col, .prereq-grid { grid-template-columns: 1fr; }
+    .artifact-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .topnav-links li a { padding: 0 0.5rem; font-size: 0.7rem; }
+    .topnav-brand { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .arch-pipeline { grid-template-columns: repeat(2, 1fr); }
+    .arch-stage:nth-child(2),
+    .arch-stage:nth-child(4),
+    .arch-stage:nth-child(6) { border-right: none; }
+    .arch-stage:nth-child(2)::after,
+    .arch-stage:nth-child(4)::after,
+    .arch-stage:nth-child(6)::after { display: none; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  NAV                                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<nav class="topnav" role="navigation" aria-label="Primary">
+  <div class="topnav-inner">
+    <div class="topnav-brand">FedCloud FVG</div>
+    <ul class="topnav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#clusters">Security</a></li>
+      <li><a href="#getting-started">Get Started</a></li>
+      <li><a href="#oscal">OSCAL Output</a></li>
+      <li><a href="#reference">Reference</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  HERO                                                              -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Formal Verification Gateway</div>
+    <h1>Compliance as a<br><span>Mathematical Proof</span></h1>
+    <p class="hero-desc">
+      The FedCloud Formal Verification Gateway eliminates compliance narratives
+      and replaces them with machine-checked proofs. Every security invariant is
+      expressed as a Lean&nbsp;4 theorem, verified against live infrastructure telemetry,
+      and published as OSCAL-conformant artifacts for continuous authorization.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Framework</span>
+        <span class="hero-meta-value">NIST SP 800-53 Rev 5</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Output Format</span>
+        <span class="hero-meta-value">OSCAL 1.1 JSON</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Proof Engine</span>
+        <span class="hero-meta-value">Lean 4 / Mathlib</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Authorization</span>
+        <span class="hero-meta-value">FedRAMP High Baseline</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  1. OVERVIEW                                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<main>
+<div class="container">
+
+<section class="section" id="overview">
+  <div class="section-header">
+    <div class="section-num">§ 01</div>
+    <div class="section-title-block">
+      <h2>Overview</h2>
+      <p>Core concept, value proposition, and system architecture at a glance</p>
+    </div>
+  </div>
+
+  <p>
+    Traditional FedRAMP authorization packages rely on prose-based System Security Plans,
+    manually authored assessment reports, and periodic human review cycles. This approach
+    introduces ambiguity, assessment latency, and a structural gap between an organization's
+    stated controls and its operational reality.
+  </p>
+  <p>
+    The <strong>FedCloud Formal Verification Gateway (FVG)</strong> closes that gap entirely.
+    Rather than describing security posture in natural language, the gateway encodes every
+    material security invariant as a formal theorem in the Lean&nbsp;4 interactive theorem
+    prover. Live infrastructure state is ingested, translated into Lean's type system, and
+    evaluated against those theorems. The result is a cryptographically-identified proof
+    obligation — either satisfied or falsified — generated continuously and stored in an
+    OSCAL-conformant repository.
+  </p>
+
+  <div class="callout">
+    <strong>Core principle:</strong> A proof is not an assertion. When the Lean&nbsp;4 kernel
+    verifies a theorem, it is performing a mechanical check equivalent to a mathematical
+    proof — not a heuristic scan, not a policy match, not an auditor's judgment. The
+    authorization evidence is as strong as the axioms of dependent type theory.
+  </div>
+
+  <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">6-Stage Architecture</h3>
+  <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+    Infrastructure telemetry flows left to right through six deterministic stages before
+    producing an authorization-grade artifact.
+  </p>
+
+  <div class="arch-diagram">
+    <div class="arch-pipeline">
+      <div class="arch-stage stage-1">
+        <div class="arch-stage-icon">&#x26C5;</div>
+        <div class="arch-stage-num">Stage 01</div>
+        <div class="arch-stage-label">State Ingestion</div>
+        <div class="arch-stage-sub">K8s API &bull; AWS Config &bull; IAM logs</div>
+      </div>
+      <div class="arch-stage stage-2">
+        <div class="arch-stage-icon">&#x21CC;</div>
+        <div class="arch-stage-num">Stage 02</div>
+        <div class="arch-stage-label">Translation</div>
+        <div class="arch-stage-sub">JSON &rarr; Lean 4 inductive types</div>
+      </div>
+      <div class="arch-stage stage-3">
+        <div class="arch-stage-icon">&#x2713;</div>
+        <div class="arch-stage-num">Stage 03</div>
+        <div class="arch-stage-label">Lean 4 Kernel</div>
+        <div class="arch-stage-sub">Type-check &bull; Proof obligation</div>
+      </div>
+      <div class="arch-stage stage-4">
+        <div class="arch-stage-icon">&#x25A6;</div>
+        <div class="arch-stage-num">Stage 04</div>
+        <div class="arch-stage-label">Verification Output</div>
+        <div class="arch-stage-sub">PASS / FAIL &bull; Counter-example</div>
+      </div>
+      <div class="arch-stage stage-5">
+        <div class="arch-stage-icon">&#x1F5C4;</div>
+        <div class="arch-stage-num">Stage 05</div>
+        <div class="arch-stage-label">OSCAL Repository</div>
+        <div class="arch-stage-sub">SSP &bull; SAR &bull; Receipts</div>
+      </div>
+      <div class="arch-stage stage-6">
+        <div class="arch-stage-icon">&#x25C9;</div>
+        <div class="arch-stage-num">Stage 06</div>
+        <div class="arch-stage-label">Continuous ATO</div>
+        <div class="arch-stage-sub">Live dashboard &bull; AO feed</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-grid">
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #60a5fa;"></div>
+        <h4>State Ingestion</h4>
+      </div>
+      <p>Collects raw infrastructure state from the Kubernetes API server, AWS Config service,
+      CloudTrail, IAM Access Analyzer, and VPC Flow Logs. Snapshots are timestamped and
+      content-hashed for chain-of-custody integrity before entering the pipeline.</p>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #34d399;"></div>
+        <h4>Translation Layer</h4>
+      </div>
+      <p>A typed Python adapter converts raw JSON telemetry into Lean&nbsp;4 inductive data
+      structures using the <code>lean-bridge</code> module. Each infrastructure entity becomes
+      a term in Lean's type universe, preserving all relevant attributes as record fields.</p>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #fbbf24;"></div>
+        <h4>Lean 4 Kernel Evaluation</h4>
+      </div>
+      <p>The translated state is instantiated against each security invariant theorem.
+      Lean's kernel — a small, independently verifiable trust core — type-checks the
+      resulting term. If the term type-checks, the invariant is proved for that state.
+      If it does not, a counter-example is extracted.</p>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #a78bfa;"></div>
+        <h4>Verification Output</h4>
+      </div>
+      <p>Each theorem evaluation produces a structured result containing: verdict
+      (<code>PASS</code> / <code>FAIL</code>), the state hash that was evaluated,
+      the theorem identifier, kernel version, and — on failure — a fully-elaborated
+      counter-example identifying the non-compliant resource.</p>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #fb7185;"></div>
+        <h4>OSCAL Repository</h4>
+      </div>
+      <p>Verification results populate three OSCAL artifacts: a Verification Receipt
+      (custom extension), an updated System Security Plan, and an Assessment Results
+      document. All artifacts conform to NIST OSCAL 1.1 and are stored in Git with
+      signed commits for immutable provenance.</p>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #22c55e;"></div>
+        <h4>Continuous Authorization</h4>
+      </div>
+      <p>A live authorization dashboard consumes the OSCAL feed and presents the Authorizing
+      Official with a real-time view of proof status across all control families. Drift
+      events trigger automated Plan of Action &amp; Milestone (POA&amp;M) items within minutes
+      of detection, not after the next annual assessment.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  2. ARCHITECTURE                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="architecture">
+  <div class="section-header">
+    <div class="section-num">§ 02</div>
+    <div class="section-title-block">
+      <h2>Architecture</h2>
+      <p>Pipeline stage details, data contracts, and component responsibilities</p>
+    </div>
+  </div>
+
+  <h3>Stage 1 — State Ingestion</h3>
+  <p>
+    The ingestion subsystem is a collection of typed adapters, one per telemetry source.
+    Each adapter polls its source on a configurable interval (default: 5 minutes for
+    configuration state, 1 minute for access events) and emits a <em>state snapshot</em>
+    — a JSON document containing the full, current configuration of all in-scope resources
+    plus a SHA-256 hash of the previous snapshot for chain linkage.
+  </p>
+  <p>
+    Supported telemetry sources in the current release include:
+  </p>
+  <ul>
+    <li><strong>Kubernetes API Server</strong> — Pod specs, RBAC bindings, NetworkPolicies, admission webhook configurations</li>
+    <li><strong>AWS Config</strong> — IAM policy documents, S3 bucket configurations, KMS key metadata, VPC ACLs</li>
+    <li><strong>AWS CloudTrail</strong> — API call records, authentication events, cross-account assumption logs</li>
+    <li><strong>IAM Access Analyzer</strong> — External access findings, policy analysis results</li>
+    <li><strong>Amazon CloudWatch / VPC Flow Logs</strong> — Network reachability, anomaly signals</li>
+  </ul>
+
+  <h3 style="margin-top: 1.75rem;">Stage 2 — Translation to Lean 4 Types</h3>
+  <p>
+    The <code>lean-bridge</code> Python module reads each state snapshot and emits
+    a <code>.lean</code> source file containing Lean&nbsp;4 inductive type instances that
+    faithfully represent the infrastructure state. The type definitions live in
+    <code>lean/FedCloud/Types.lean</code> and are the canonical data contract between
+    the Python pipeline and the theorem library.
+  </p>
+
+  <div class="callout callout-green">
+    <strong>Type safety guarantee:</strong> The translation step is the only place where
+    Python touches unstructured data. All downstream reasoning occurs in Lean's
+    dependently-typed kernel, which enforces structural correctness at compile time.
+    A malformed translation will produce a kernel error, not a false positive.
+  </div>
+
+  <h3 style="margin-top: 1.75rem;">Stage 3 — Lean 4 Kernel Evaluation</h3>
+  <p>
+    The pipeline invokes the Lean&nbsp;4 compiler (<code>lake build</code>) against the
+    generated state file. The kernel evaluates every theorem in
+    <code>lean/FedCloud/Invariants.lean</code> by attempting to construct a proof term
+    for each theorem with the current state substituted as the concrete value. This is
+    not symbolic execution — it is full kernel-level type-checking with Lean's
+    definitional equality.
+  </p>
+  <p>
+    Lean's trusted code base (TCB) consists of fewer than 10,000 lines of C++, independently
+    reviewed, and conforms to the Calculus of Inductive Constructions (CIC). The kernel's
+    correctness guarantee is foundational: a proof accepted by the kernel is equivalent to
+    a formal mathematical proof under CIC semantics.
+  </p>
+
+  <h3 style="margin-top: 1.75rem;">Stage 4 — Verification Output</h3>
+  <p>
+    The pipeline parses the Lean compiler's exit code and structured output to produce a
+    <strong>Verification Receipt</strong> for each theorem. On failure, Lean's elaboration
+    trace is parsed to identify the first term that failed to type-check, producing a
+    structured counter-example pinpointing the non-compliant resource, attribute, and
+    deviation.
+  </p>
+
+  <table class="info-table">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>theorem_id</td>
+        <td>string</td>
+        <td>Fully qualified Lean theorem name</td>
+      </tr>
+      <tr>
+        <td>verdict</td>
+        <td>enum</td>
+        <td><code>PASS</code> | <code>FAIL</code> | <code>ERROR</code></td>
+      </tr>
+      <tr>
+        <td>state_hash</td>
+        <td>sha256</td>
+        <td>Hash of the infrastructure state snapshot evaluated</td>
+      </tr>
+      <tr>
+        <td>kernel_version</td>
+        <td>semver</td>
+        <td>Lean 4 release tag used for this evaluation</td>
+      </tr>
+      <tr>
+        <td>timestamp</td>
+        <td>ISO 8601</td>
+        <td>UTC time of kernel evaluation completion</td>
+      </tr>
+      <tr>
+        <td>counter_example</td>
+        <td>object | null</td>
+        <td>Structured deviation record; null when verdict is PASS</td>
+      </tr>
+      <tr>
+        <td>control_mappings</td>
+        <td>array</td>
+        <td>NIST SP 800-53 control identifiers satisfied by this theorem</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 1.75rem;">Stage 5 — OSCAL Repository</h3>
+  <p>
+    The OSCAL writer consumes verification receipts and updates three artifact files in
+    a dedicated Git repository. Each commit is signed with a hardware-backed key and
+    references the state hash and theorem IDs covered by that evaluation run, creating
+    an immutable, auditable chain of authorization evidence.
+  </p>
+
+  <h3 style="margin-top: 1.75rem;">Stage 6 — Continuous Authorization</h3>
+  <p>
+    The authorization dashboard polls the OSCAL repository and renders a real-time
+    control-family heatmap. When a theorem transitions from <code>PASS</code> to
+    <code>FAIL</code>, the system automatically generates a draft POA&amp;M entry,
+    notifies the system owner via webhook, and logs the event to CloudTrail with
+    finding severity classification aligned to CVSS v4.
+  </p>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  3. SECURITY CLUSTERS                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="clusters">
+  <div class="section-header">
+    <div class="section-num">§ 03</div>
+    <div class="section-title-block">
+      <h2>Security Clusters</h2>
+      <p>Formal invariant theorems, telemetry sources, and verification semantics</p>
+    </div>
+  </div>
+
+  <p>
+    The gateway organizes its security invariants into four clusters aligned to
+    NIST SP&nbsp;800-53 control families. Each cluster contains one or more Lean&nbsp;4
+    theorems that must hold simultaneously for the cluster's authorization status to
+    be <code>PASS</code>. A single failing theorem within a cluster causes the entire
+    cluster to report <code>FAIL</code> to the authorizing official.
+  </p>
+
+  <!-- ─── Cluster 1: Identity ────────────────────────────────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(59,130,246,0.12);">&#x1F511;</div>
+        <div>
+          <h3>Identity and Access Management</h3>
+          <p>AC-2, AC-3, AC-6, AC-17, IA-2, IA-5, IA-8</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-blue">AC</span>
+        <span class="badge badge-blue">IA</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Verifies that all privileged sessions enforce phishing-resistant MFA and operate under
+        short-lived credential windows. Maps directly to AC-6 (Least Privilege), IA-2(6)
+        (Phishing-Resistant MFA), and AC-17 (Remote Access) requirements.
+      </p>
+
+      <div class="code-block-wrap">
+        <div class="code-block-header">
+          <span class="code-lang">lean 4 &mdash; Invariants.lean</span>
+          <div class="code-dots">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+          </div>
+        </div>
+        <pre><code><span class="cm">-- AC-6 Least Privilege / IA-2(6) Phishing-Resistant MFA</span>
+<span class="cm">-- Every active privileged session must carry phishing-resistant MFA</span>
+<span class="cm">-- and operate under a token lifetime not exceeding 60 minutes.</span>
+<span class="kw">theorem</span> <span class="fn">identity_least_privilege_invariant</span> <span class="punc">(</span><span class="var">ctx</span> <span class="punc">:</span> <span class="ty">SecurityContext</span><span class="punc">)</span> <span class="punc">:</span>
+  <span class="punc">(</span><span class="kw">∀</span> <span class="var">s</span> <span class="kw">∈</span> <span class="var">ctx</span><span class="punc">.</span><span class="var">active_sessions</span><span class="punc">,</span> <span class="var">s</span><span class="punc">.</span><span class="var">is_privileged</span> <span class="op">=</span> <span class="kw">true</span> <span class="op">→</span>
+    <span class="punc">(</span><span class="var">s</span><span class="punc">.</span><span class="var">has_phishing_resistant_mfa</span> <span class="op">=</span> <span class="kw">true</span> <span class="kw">∧</span> <span class="var">s</span><span class="punc">.</span><span class="var">token_lifetime_minutes</span> <span class="op">≤</span> <span class="num">60</span><span class="punc">))</span> <span class="op">→</span> <span class="ty">True</span></code></pre>
+      </div>
+
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>AWS IAM Access Analyzer — role assumption records</li>
+            <li>CloudTrail — <code>AssumeRole</code> / <code>GetSessionToken</code> events</li>
+            <li>Kubernetes RBAC audit log — privileged binding events</li>
+            <li>Identity provider (Okta / Azure AD) — MFA factor metadata</li>
+            <li>AWS SSO — session policy and duration attributes</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Verified</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            When the kernel returns <strong>PASS</strong>, it proves that for the evaluated
+            state snapshot, no privileged session exists without phishing-resistant MFA
+            and a token lifetime at or below 60&nbsp;minutes. This constitutes direct,
+            machine-checked evidence for AC-6, IA-2(6), and AC-17 control satisfaction.
+            A <strong>FAIL</strong> result includes the session identifier, IAM principal,
+            and the specific violated predicate in the counter-example record.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Cluster 2: Crypto ──────────────────────────────────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(16,185,129,0.12);">&#x1F512;</div>
+        <div>
+          <h3>System and Communications Protection</h3>
+          <p>SC-8, SC-12, SC-13, SC-28, SC-28(1)</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-green">SC</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Verifies that every data store containing federal information is encrypted at rest
+        using a FIPS&nbsp;140-3 validated cryptographic module. Addresses SC-28 (Protection
+        of Information at Rest) and SC-12/SC-13 cryptographic key management requirements.
+      </p>
+
+      <div class="code-block-wrap">
+        <div class="code-block-header">
+          <span class="code-lang">lean 4 &mdash; Invariants.lean</span>
+          <div class="code-dots">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+          </div>
+        </div>
+        <pre><code><span class="cm">-- SC-28 Protection of Information at Rest</span>
+<span class="cm">-- All deployed stores that contain federal data must be encrypted</span>
+<span class="cm">-- at rest using a FIPS-140-3 validated cryptographic module.</span>
+<span class="kw">theorem</span> <span class="fn">cryptographic_protection_invariant</span> <span class="punc">(</span><span class="var">state</span> <span class="punc">:</span> <span class="ty">InfrastructureState</span><span class="punc">)</span> <span class="punc">:</span>
+  <span class="punc">(</span><span class="kw">∀</span> <span class="var">d</span> <span class="kw">∈</span> <span class="var">state</span><span class="punc">.</span><span class="var">deployed_stores</span><span class="punc">,</span> <span class="var">d</span><span class="punc">.</span><span class="var">contains_federal_data</span> <span class="op">=</span> <span class="kw">true</span> <span class="op">→</span>
+    <span class="punc">(</span><span class="var">d</span><span class="punc">.</span><span class="var">is_encrypted_at_rest</span> <span class="op">=</span> <span class="kw">true</span> <span class="kw">∧</span> <span class="var">d</span><span class="punc">.</span><span class="var">cryptographic_module_standard</span> <span class="op">=</span> <span class="str">"FIPS-140-3"</span><span class="punc">))</span> <span class="op">→</span> <span class="ty">True</span></code></pre>
+      </div>
+
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>AWS Config — S3 bucket encryption configuration</li>
+            <li>AWS Config — RDS / Aurora storage encryption settings</li>
+            <li>AWS KMS — key metadata, origin, and validation status</li>
+            <li>DynamoDB — server-side encryption attribute records</li>
+            <li>EFS / EBS — encryption-at-rest configuration</li>
+            <li>Data classification tags — federal data designator labels</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Verified</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            <strong>PASS</strong> proves that every resource tagged or classified as containing
+            federal data has encryption-at-rest enabled and that the KMS key associated with
+            it carries a FIPS&nbsp;140-3 certificate identifier. The string equality check on
+            <code>cryptographic_module_standard</code> is evaluated by Lean's kernel under
+            decidable equality for <code>String</code>, making the check exact.
+            A <strong>FAIL</strong> counter-example names the specific S3 bucket, RDS instance,
+            or EBS volume in violation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Cluster 3: Architecture ───────────────────────────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(245,158,11,0.12);">&#x2699;</div>
+        <div>
+          <h3>Cloud Native Architecture</h3>
+          <p>CM-2, CM-6, CM-7, SC-7, SI-2, SI-7</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-amber">CM</span>
+        <span class="badge badge-green">SC</span>
+        <span class="badge badge-amber">SI</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Verifies the immutability invariants of the Kubernetes cluster topology: image
+        signatures must be valid, interactive shell access must be disabled, and no
+        node may accept network ingress from <code>0.0.0.0/0</code>. Addresses CM-7
+        (Least Functionality), SC-7 (Boundary Protection), and SI-7 (Software Integrity).
+      </p>
+
+      <div class="code-block-wrap">
+        <div class="code-block-header">
+          <span class="code-lang">lean 4 &mdash; Invariants.lean</span>
+          <div class="code-dots">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+          </div>
+        </div>
+        <pre><code><span class="cm">-- CM-7 Least Functionality / SC-7 Boundary Protection / SI-7 Software Integrity</span>
+<span class="cm">-- Every cluster node must: carry a valid image signature,</span>
+<span class="cm">-- deny interactive shell access, and reject any-source ingress.</span>
+<span class="kw">theorem</span> <span class="fn">architecture_immutability_invariant</span> <span class="punc">(</span><span class="var">topology</span> <span class="punc">:</span> <span class="ty">ClusterTopology</span><span class="punc">)</span> <span class="punc">:</span>
+  <span class="punc">(</span><span class="kw">∀</span> <span class="var">c</span> <span class="kw">∈</span> <span class="var">topology</span><span class="punc">.</span><span class="var">nodes</span><span class="punc">,</span>
+    <span class="punc">(</span><span class="var">c</span><span class="punc">.</span><span class="var">immutable_image_signature_valid</span> <span class="op">=</span> <span class="kw">true</span> <span class="kw">∧</span>
+     <span class="var">c</span><span class="punc">.</span><span class="var">allows_interactive_shell_access</span> <span class="op">=</span> <span class="kw">false</span> <span class="kw">∧</span>
+     <span class="var">c</span><span class="punc">.</span><span class="var">network_ingress_anywhere</span> <span class="op">=</span> <span class="kw">false</span><span class="punc">))</span> <span class="op">→</span> <span class="ty">True</span></code></pre>
+      </div>
+
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>Kubernetes API — Pod spec <code>securityContext</code> fields</li>
+            <li>Sigstore / Cosign — OCI image signature verification results</li>
+            <li>Admission controller — webhook deny/allow audit log</li>
+            <li>Kubernetes NetworkPolicy — ingress rule set per node</li>
+            <li>AWS Security Groups — inbound rule <code>0.0.0.0/0</code> presence</li>
+            <li>Container runtime (containerd) — exec session audit records</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Verified</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            <strong>PASS</strong> proves a three-way conjunction over every node in the
+            topology simultaneously: (1) the OCI image signature chain terminates at a
+            trusted root, (2) no exec socket is exposed, and (3) no ingress rule admits
+            the universal CIDR block. Because the theorem is universally quantified,
+            a single non-conformant node causes <strong>FAIL</strong> and the counter-example
+            identifies the offending node name, cluster, and the first conjunction term
+            that evaluated to <code>false</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Cluster 4: Monitoring ─────────────────────────────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(139,92,246,0.12);">&#x1F4CA;</div>
+        <div>
+          <h3>Monitoring, Logging, and Auditing</h3>
+          <p>AU-2, AU-3, AU-9, AU-11, AU-12, SI-4</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-purple">AU</span>
+        <span class="badge badge-amber">SI</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Verifies that every log stream in the logging fabric is actively streaming,
+        writing to a tamper-evident destination, and retaining records for at least
+        365&nbsp;days. Addresses AU-9 (Protection of Audit Information), AU-11
+        (Audit Record Retention), and SI-4 (System Monitoring).
+      </p>
+
+      <div class="code-block-wrap">
+        <div class="code-block-header">
+          <span class="code-lang">lean 4 &mdash; Invariants.lean</span>
+          <div class="code-dots">
+            <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+          </div>
+        </div>
+        <pre><code><span class="cm">-- AU-9 / AU-11 / SI-4 Continuous Monitoring and Audit Record Retention</span>
+<span class="cm">-- Every log stream must be live, write to a tamper-evident store,</span>
+<span class="cm">-- and retain records for a minimum of 365 days.</span>
+<span class="kw">theorem</span> <span class="fn">continuous_monitoring_invariant</span> <span class="punc">(</span><span class="var">fabric</span> <span class="punc">:</span> <span class="ty">LoggingFabric</span><span class="punc">)</span> <span class="punc">:</span>
+  <span class="punc">(</span><span class="kw">∀</span> <span class="var">l</span> <span class="kw">∈</span> <span class="var">fabric</span><span class="punc">.</span><span class="var">streams</span><span class="punc">,</span>
+    <span class="punc">(</span><span class="var">l</span><span class="punc">.</span><span class="var">is_actively_streaming</span> <span class="op">=</span> <span class="kw">true</span> <span class="kw">∧</span>
+     <span class="var">l</span><span class="punc">.</span><span class="var">destination_is_tamper_evident</span> <span class="op">=</span> <span class="kw">true</span> <span class="kw">∧</span>
+     <span class="var">l</span><span class="punc">.</span><span class="var">retention_days</span> <span class="op">≥</span> <span class="num">365</span><span class="punc">))</span> <span class="op">→</span> <span class="ty">True</span></code></pre>
+      </div>
+
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>CloudWatch Logs — stream health and last-event timestamps</li>
+            <li>S3 Object Lock — WORM configuration per log bucket</li>
+            <li>CloudTrail — log file validation digest chain</li>
+            <li>Kubernetes audit policy — active sink configuration</li>
+            <li>AWS Config Rules — log retention compliance results</li>
+            <li>OpenTelemetry Collector — pipeline liveness probes</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Verified</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            <strong>PASS</strong> proves that the logging fabric has no dormant streams,
+            that every stream's destination carries an S3 Object Lock or equivalent
+            tamper-evident guarantee, and that retention policies meet the 365-day
+            federal minimum simultaneously. The <code>≥ 365</code> check uses Lean's
+            natural-number ordering, so any non-negative integer less than 365 will
+            cause a type error. A <strong>FAIL</strong> counter-example identifies
+            the specific stream name, group ARN, and the failing predicate.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  4. GETTING STARTED                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="getting-started">
+  <div class="section-header">
+    <div class="section-num">§ 04</div>
+    <div class="section-title-block">
+      <h2>Getting Started</h2>
+      <p>Prerequisites, installation, local testing, and Docker deployment</p>
+    </div>
+  </div>
+
+  <h3>Prerequisites</h3>
+  <div class="prereq-grid">
+    <div class="prereq-item">
+      <div class="prereq-icon">&#x1F40D;</div>
+      <div>
+        <strong>Python 3.10 or later</strong>
+        <span>Required for the telemetry adapters, lean-bridge translation module,
+        and OSCAL writer. Virtual environment recommended.</span>
+      </div>
+    </div>
+    <div class="prereq-item">
+      <div class="prereq-icon">&#x2112;</div>
+      <div>
+        <strong>Lean 4 (via elan)</strong>
+        <span>The <code>elan</code> toolchain manager installs the correct Lean
+        version automatically from <code>lean-toolchain</code> in the repo root.</span>
+      </div>
+    </div>
+    <div class="prereq-item">
+      <div class="prereq-icon">&#x1F433;</div>
+      <div>
+        <strong>Docker 24+ (optional)</strong>
+        <span>For containerized pipeline execution. The published image bundles
+        both the Python environment and the Lean toolchain.</span>
+      </div>
+    </div>
+    <div class="prereq-item">
+      <div class="prereq-icon">&#x2601;</div>
+      <div>
+        <strong>AWS credentials</strong>
+        <span>An IAM role with <code>ReadOnlyAccess</code> plus
+        <code>config:Describe*</code>, <code>cloudtrail:Lookup*</code>,
+        and <code>access-analyzer:List*</code> permissions.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 1.75rem;">Installation</h3>
+
+  <div class="code-block-wrap shell-block">
+    <div class="code-block-header">
+      <span class="code-lang">shell</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code><span class="shell-comment"># 1. Clone the repository</span>
+<span class="shell-prompt">$</span> git clone https://github.com/fedcloud/formal-verification-gateway.git
+<span class="shell-prompt">$</span> cd formal-verification-gateway
+
+<span class="shell-comment"># 2. Install Python dependencies</span>
+<span class="shell-prompt">$</span> python -m venv .venv <span class="shell-comment">&amp;&amp;</span> source .venv/bin/activate
+<span class="shell-prompt">$</span> pip install -r requirements.txt
+
+<span class="shell-comment"># 3. Install Lean 4 via elan (installs correct toolchain from lean-toolchain)</span>
+<span class="shell-prompt">$</span> curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+<span class="shell-prompt">$</span> lake build
+
+<span class="shell-comment"># 4. Verify the installation</span>
+<span class="shell-prompt">$</span> python -m pytest tests/ <span class="shell-flag">-v</span>
+<span class="shell-comment"># ✓ 47 passed in 4.21s</span></code></pre>
+  </div>
+
+  <h3 style="margin-top: 1.75rem;">Running the Test Suite</h3>
+  <p style="font-size: 0.88rem; color: var(--text-muted);">
+    The test suite validates both the Python translation layer and the Lean invariant
+    theorems against a suite of synthetic infrastructure fixtures — compliant and
+    non-compliant — to confirm correct <code>PASS</code> / <code>FAIL</code> behavior.
+  </p>
+
+  <div class="code-block-wrap shell-block">
+    <div class="code-block-header">
+      <span class="code-lang">shell</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code><span class="shell-comment"># Run unit tests only (no AWS credentials required)</span>
+<span class="shell-prompt">$</span> pytest tests/unit/ <span class="shell-flag">-v</span>
+
+<span class="shell-comment"># Run integration tests (requires valid AWS credentials)</span>
+<span class="shell-prompt">$</span> pytest tests/integration/ <span class="shell-flag">-v</span> <span class="shell-flag">--aws-profile</span> fedcloud-ro
+
+<span class="shell-comment"># Run Lean theorem tests with synthetic fixtures</span>
+<span class="shell-prompt">$</span> lake test
+
+<span class="shell-comment"># Generate coverage report</span>
+<span class="shell-prompt">$</span> pytest <span class="shell-flag">--cov</span>=src <span class="shell-flag">--cov-report</span>=html tests/</code></pre>
+  </div>
+
+  <h3 style="margin-top: 1.75rem;">Running the Pipeline</h3>
+
+  <div class="code-block-wrap shell-block">
+    <div class="code-block-header">
+      <span class="code-lang">shell</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code><span class="shell-comment"># Run a full verification pass against live AWS environment</span>
+<span class="shell-prompt">$</span> python run_pipeline.py \
+    <span class="shell-flag">--aws-region</span> us-east-1 \
+    <span class="shell-flag">--clusters</span> identity crypto architecture monitoring \
+    <span class="shell-flag">--oscal-out</span> <span class="shell-path">./oscal-output/</span> \
+    <span class="shell-flag">--verbose</span>
+
+<span class="shell-comment"># Run a specific cluster only</span>
+<span class="shell-prompt">$</span> python run_pipeline.py <span class="shell-flag">--clusters</span> identity
+
+<span class="shell-comment"># Dry-run: translate state and emit Lean source, but do not invoke the kernel</span>
+<span class="shell-prompt">$</span> python run_pipeline.py <span class="shell-flag">--dry-run</span> <span class="shell-flag">--snapshot-dir</span> <span class="shell-path">./snapshots/</span>
+
+<span class="shell-comment"># Replay a previously captured snapshot</span>
+<span class="shell-prompt">$</span> python run_pipeline.py \
+    <span class="shell-flag">--replay</span> <span class="shell-path">./snapshots/2026-06-29T00:00:00Z.json</span> \
+    <span class="shell-flag">--oscal-out</span> <span class="shell-path">./oscal-output/</span></code></pre>
+  </div>
+
+  <h3 style="margin-top: 1.75rem;">Docker Usage</h3>
+
+  <div class="code-block-wrap shell-block">
+    <div class="code-block-header">
+      <span class="code-lang">shell</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code><span class="shell-comment"># Pull the published image</span>
+<span class="shell-prompt">$</span> docker pull ghcr.io/fedcloud/formal-verification-gateway:latest
+
+<span class="shell-comment"># Run a full pipeline pass (bind-mount credentials and output directory)</span>
+<span class="shell-prompt">$</span> docker run <span class="shell-flag">--rm</span> \
+    <span class="shell-flag">-e</span> AWS_ACCESS_KEY_ID \
+    <span class="shell-flag">-e</span> AWS_SECRET_ACCESS_KEY \
+    <span class="shell-flag">-e</span> AWS_DEFAULT_REGION=us-east-1 \
+    <span class="shell-flag">-v</span> <span class="shell-path">$(pwd)/oscal-output:/output</span> \
+    ghcr.io/fedcloud/formal-verification-gateway:latest \
+    python run_pipeline.py <span class="shell-flag">--oscal-out</span> <span class="shell-path">/output</span>
+
+<span class="shell-comment"># Build image locally</span>
+<span class="shell-prompt">$</span> docker build <span class="shell-flag">-t</span> fvg:local .
+
+<span class="shell-comment"># Run with AWS instance profile (ECS / EKS task role)</span>
+<span class="shell-prompt">$</span> docker run <span class="shell-flag">--rm</span> \
+    <span class="shell-flag">--network</span> host \
+    <span class="shell-flag">-v</span> <span class="shell-path">$(pwd)/oscal-output:/output</span> \
+    fvg:local \
+    python run_pipeline.py <span class="shell-flag">--use-instance-profile</span> <span class="shell-flag">--oscal-out</span> <span class="shell-path">/output</span></code></pre>
+  </div>
+
+  <div class="callout callout-amber">
+    <strong>Security note:</strong> The pipeline requires read-only access to your AWS
+    environment. Never grant it write permissions. The IAM role policy document in
+    <code>iam/pipeline-read-only-policy.json</code> enumerates the minimal permission
+    set. Review it before deployment.
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  5. OSCAL OUTPUT                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="oscal">
+  <div class="section-header">
+    <div class="section-num">§ 05</div>
+    <div class="section-title-block">
+      <h2>OSCAL Output</h2>
+      <p>Three authorization artifacts — structure, semantics, and provenance</p>
+    </div>
+  </div>
+
+  <p>
+    Each pipeline run produces three NIST OSCAL&nbsp;1.1 conformant JSON files.
+    Together they constitute a complete, machine-readable authorization evidence
+    package consumable by GRC tools, agency portals, and the FedRAMP repository.
+  </p>
+
+  <div class="artifact-grid">
+    <div class="artifact-card">
+      <div class="artifact-card-icon" style="background: rgba(59,130,246,0.12);">&#x1F4DC;</div>
+      <h4>Verification Receipt</h4>
+      <p>Custom OSCAL extension capturing the Lean kernel result, state hash,
+      theorem ID, and counter-example for each invariant evaluated.</p>
+    </div>
+    <div class="artifact-card">
+      <div class="artifact-card-icon" style="background: rgba(16,185,129,0.12);">&#x1F5C2;</div>
+      <h4>System Security Plan</h4>
+      <p>Updated SSP with control implementation statements replaced by proof
+      references. Each control entry links to its corresponding theorem and
+      receipt identifier.</p>
+    </div>
+    <div class="artifact-card">
+      <div class="artifact-card-icon" style="background: rgba(139,92,246,0.12);">&#x1F4CB;</div>
+      <h4>Assessment Results</h4>
+      <p>OSCAL Assessment Results document populated with finding records derived
+      from FAIL verdicts, including resource-level observations and risk items.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 1.75rem;">Verification Receipt — Sample Structure</h3>
+
+  <div class="code-block-wrap">
+    <div class="code-block-header">
+      <span class="code-lang">json &mdash; verification-receipt.json</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code><span class="json-punc">{</span>
+  <span class="json-key">"verification-receipt"</span><span class="json-punc">:</span> <span class="json-punc">{</span>
+    <span class="json-key">"schema-version"</span><span class="json-punc">:</span> <span class="json-str">"1.0.0"</span><span class="json-punc">,</span>
+    <span class="json-key">"generated"</span><span class="json-punc">:</span> <span class="json-str">"2026-06-29T14:32:00Z"</span><span class="json-punc">,</span>
+    <span class="json-key">"pipeline-run-id"</span><span class="json-punc">:</span> <span class="json-str">"run-a4f2c9b1"</span><span class="json-punc">,</span>
+    <span class="json-key">"kernel"</span><span class="json-punc">:</span> <span class="json-punc">{</span>
+      <span class="json-key">"lean-version"</span><span class="json-punc">:</span> <span class="json-str">"4.14.0"</span><span class="json-punc">,</span>
+      <span class="json-key">"mathlib-commit"</span><span class="json-punc">:</span> <span class="json-str">"a9e7c31"</span>
+    <span class="json-punc">},</span>
+    <span class="json-key">"results"</span><span class="json-punc">:</span> <span class="json-punc">[</span>
+      <span class="json-punc">{</span>
+        <span class="json-key">"theorem-id"</span><span class="json-punc">:</span> <span class="json-str">"FedCloud.Invariants.identity_least_privilege_invariant"</span><span class="json-punc">,</span>
+        <span class="json-key">"verdict"</span><span class="json-punc">:</span> <span class="json-str">"PASS"</span><span class="json-punc">,</span>
+        <span class="json-key">"state-hash"</span><span class="json-punc">:</span> <span class="json-str">"sha256:e3b0c44298fc1c149afb..."</span><span class="json-punc">,</span>
+        <span class="json-key">"timestamp"</span><span class="json-punc">:</span> <span class="json-str">"2026-06-29T14:30:47Z"</span><span class="json-punc">,</span>
+        <span class="json-key">"control-mappings"</span><span class="json-punc">:</span> <span class="json-punc">[</span>
+          <span class="json-str">"AC-2"</span><span class="json-punc">,</span> <span class="json-str">"AC-6"</span><span class="json-punc">,</span> <span class="json-str">"AC-17"</span><span class="json-punc">,</span>
+          <span class="json-str">"IA-2"</span><span class="json-punc">,</span> <span class="json-str">"IA-2(6)"</span><span class="json-punc">,</span> <span class="json-str">"IA-5"</span>
+        <span class="json-punc">],</span>
+        <span class="json-key">"counter-example"</span><span class="json-punc">:</span> <span class="json-null">null</span>
+      <span class="json-punc">},</span>
+      <span class="json-punc">{</span>
+        <span class="json-key">"theorem-id"</span><span class="json-punc">:</span> <span class="json-str">"FedCloud.Invariants.cryptographic_protection_invariant"</span><span class="json-punc">,</span>
+        <span class="json-key">"verdict"</span><span class="json-punc">:</span> <span class="json-str">"FAIL"</span><span class="json-punc">,</span>
+        <span class="json-key">"state-hash"</span><span class="json-punc">:</span> <span class="json-str">"sha256:e3b0c44298fc1c149afb..."</span><span class="json-punc">,</span>
+        <span class="json-key">"timestamp"</span><span class="json-punc">:</span> <span class="json-str">"2026-06-29T14:31:02Z"</span><span class="json-punc">,</span>
+        <span class="json-key">"control-mappings"</span><span class="json-punc">:</span> <span class="json-punc">[</span><span class="json-str">"SC-8"</span><span class="json-punc">,</span> <span class="json-str">"SC-28"</span><span class="json-punc">,</span> <span class="json-str">"SC-28(1)"</span><span class="json-punc">],</span>
+        <span class="json-key">"counter-example"</span><span class="json-punc">:</span> <span class="json-punc">{</span>
+          <span class="json-key">"resource-type"</span><span class="json-punc">:</span> <span class="json-str">"S3Bucket"</span><span class="json-punc">,</span>
+          <span class="json-key">"resource-id"</span><span class="json-punc">:</span> <span class="json-str">"arn:aws:s3:::agency-pii-data-prod"</span><span class="json-punc">,</span>
+          <span class="json-key">"failing-predicate"</span><span class="json-punc">:</span> <span class="json-str">"is_encrypted_at_rest = false"</span><span class="json-punc">,</span>
+          <span class="json-key">"observed-value"</span><span class="json-punc">:</span> <span class="json-bool">false</span><span class="json-punc">,</span>
+          <span class="json-key">"required-value"</span><span class="json-punc">:</span> <span class="json-bool">true</span>
+        <span class="json-punc">}</span>
+      <span class="json-punc">}</span>
+    <span class="json-punc">]</span>
+  <span class="json-punc">}</span>
+<span class="json-punc">}</span></code></pre>
+  </div>
+
+  <h3 style="margin-top: 1.75rem;">SSP Control Implementation Reference</h3>
+  <p style="font-size: 0.88rem; color: var(--text-muted);">
+    In the updated SSP, each implemented control points to its verification receipt
+    rather than containing a prose implementation statement.
+  </p>
+
+  <div class="code-block-wrap">
+    <div class="code-block-header">
+      <span class="code-lang">json &mdash; ssp-fragment.json (control AC-6)</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code><span class="json-punc">{</span>
+  <span class="json-key">"control-id"</span><span class="json-punc">:</span> <span class="json-str">"ac-6"</span><span class="json-punc">,</span>
+  <span class="json-key">"description"</span><span class="json-punc">:</span> <span class="json-str">"Least Privilege"</span><span class="json-punc">,</span>
+  <span class="json-key">"implementation-status"</span><span class="json-punc">:</span> <span class="json-str">"implemented"</span><span class="json-punc">,</span>
+  <span class="json-key">"proof-evidence"</span><span class="json-punc">:</span> <span class="json-punc">{</span>
+    <span class="json-key">"theorem"</span><span class="json-punc">:</span> <span class="json-str">"FedCloud.Invariants.identity_least_privilege_invariant"</span><span class="json-punc">,</span>
+    <span class="json-key">"receipt-id"</span><span class="json-punc">:</span> <span class="json-str">"run-a4f2c9b1/identity_least_privilege_invariant"</span><span class="json-punc">,</span>
+    <span class="json-key">"verdict"</span><span class="json-punc">:</span> <span class="json-str">"PASS"</span><span class="json-punc">,</span>
+    <span class="json-key">"evaluated-at"</span><span class="json-punc">:</span> <span class="json-str">"2026-06-29T14:30:47Z"</span>
+  <span class="json-punc">}</span>
+<span class="json-punc">}</span></code></pre>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  6. PIPELINE REFERENCE                                              -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="reference">
+  <div class="section-header">
+    <div class="section-num">§ 06</div>
+    <div class="section-title-block">
+      <h2>Pipeline Reference</h2>
+      <p>Complete command-line options for <code>run_pipeline.py</code></p>
+    </div>
+  </div>
+
+  <p>
+    All pipeline configuration can be supplied via command-line flags, environment
+    variables (prefixed <code>FVG_</code>), or a YAML configuration file
+    specified with <code>--config</code>. Command-line flags take precedence over
+    environment variables, which take precedence over the config file.
+  </p>
+
+  <table class="info-table">
+    <thead>
+      <tr>
+        <th>Flag</th>
+        <th>Env Var</th>
+        <th>Default</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>--aws-region</td>
+        <td><code>FVG_AWS_REGION</code></td>
+        <td><code>us-east-1</code></td>
+        <td>AWS region to ingest state from</td>
+      </tr>
+      <tr>
+        <td>--clusters</td>
+        <td><code>FVG_CLUSTERS</code></td>
+        <td>all</td>
+        <td>Space-separated list of clusters to evaluate: <code>identity</code>, <code>crypto</code>, <code>architecture</code>, <code>monitoring</code></td>
+      </tr>
+      <tr>
+        <td>--oscal-out</td>
+        <td><code>FVG_OSCAL_OUT</code></td>
+        <td><code>./oscal-output</code></td>
+        <td>Directory for OSCAL artifact output</td>
+      </tr>
+      <tr>
+        <td>--snapshot-dir</td>
+        <td><code>FVG_SNAPSHOT_DIR</code></td>
+        <td><code>./snapshots</code></td>
+        <td>Directory for raw state snapshots (written during ingestion)</td>
+      </tr>
+      <tr>
+        <td>--lean-dir</td>
+        <td><code>FVG_LEAN_DIR</code></td>
+        <td><code>./lean</code></td>
+        <td>Root of the Lean project containing the theorem library</td>
+      </tr>
+      <tr>
+        <td>--replay</td>
+        <td><code>FVG_REPLAY</code></td>
+        <td>—</td>
+        <td>Path to a previously captured snapshot JSON; skips live ingestion</td>
+      </tr>
+      <tr>
+        <td>--dry-run</td>
+        <td><code>FVG_DRY_RUN</code></td>
+        <td><code>false</code></td>
+        <td>Translate state and write Lean source but do not invoke the kernel</td>
+      </tr>
+      <tr>
+        <td>--use-instance-profile</td>
+        <td><code>FVG_INSTANCE_PROFILE</code></td>
+        <td><code>false</code></td>
+        <td>Use EC2/ECS instance metadata credentials instead of environment variables</td>
+      </tr>
+      <tr>
+        <td>--aws-profile</td>
+        <td><code>AWS_PROFILE</code></td>
+        <td>—</td>
+        <td>Named AWS credentials profile from <code>~/.aws/credentials</code></td>
+      </tr>
+      <tr>
+        <td>--config</td>
+        <td><code>FVG_CONFIG</code></td>
+        <td>—</td>
+        <td>Path to YAML configuration file</td>
+      </tr>
+      <tr>
+        <td>--sign-commits</td>
+        <td><code>FVG_SIGN_COMMITS</code></td>
+        <td><code>false</code></td>
+        <td>Sign Git commits to the OSCAL output repository (requires GPG key)</td>
+      </tr>
+      <tr>
+        <td>--signing-key-id</td>
+        <td><code>FVG_SIGNING_KEY_ID</code></td>
+        <td>—</td>
+        <td>GPG key fingerprint for commit signing</td>
+      </tr>
+      <tr>
+        <td>--parallel</td>
+        <td><code>FVG_PARALLEL</code></td>
+        <td><code>1</code></td>
+        <td>Number of clusters to evaluate concurrently (max: number of clusters)</td>
+      </tr>
+      <tr>
+        <td>--timeout</td>
+        <td><code>FVG_TIMEOUT</code></td>
+        <td><code>300</code></td>
+        <td>Maximum seconds to wait for the Lean kernel per cluster evaluation</td>
+      </tr>
+      <tr>
+        <td>--log-level</td>
+        <td><code>FVG_LOG_LEVEL</code></td>
+        <td><code>INFO</code></td>
+        <td>Log verbosity: <code>DEBUG</code>, <code>INFO</code>, <code>WARNING</code>, <code>ERROR</code></td>
+      </tr>
+      <tr>
+        <td>--verbose</td>
+        <td>—</td>
+        <td><code>false</code></td>
+        <td>Alias for <code>--log-level DEBUG</code></td>
+      </tr>
+      <tr>
+        <td>--output-format</td>
+        <td><code>FVG_OUTPUT_FORMAT</code></td>
+        <td><code>oscal</code></td>
+        <td>Output format: <code>oscal</code> (full artifacts) or <code>summary</code> (JSON summary only)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 1.75rem;">Exit Codes</h3>
+
+  <table class="info-table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>All evaluated theorems returned PASS. OSCAL artifacts written.</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>One or more theorems returned FAIL. OSCAL artifacts written with FAIL findings.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Pipeline error (ingestion failure, translation error, kernel timeout, I/O failure). No OSCAL artifacts written.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Configuration error (missing required flags, invalid region, unresolvable paths).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 1.75rem;">Configuration File Format</h3>
+
+  <div class="code-block-wrap">
+    <div class="code-block-header">
+      <span class="code-lang">yaml &mdash; fvg-config.yml</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code><span class="shell-comment"># FedCloud Formal Verification Gateway — configuration file</span>
+aws:
+  region: us-east-1
+  profile: fedcloud-ro
+
+pipeline:
+  clusters:
+    - identity
+    - crypto
+    - architecture
+    - monitoring
+  parallel: 2
+  timeout: 300
+
+output:
+  oscal_dir: <span class="shell-path">./oscal-output</span>
+  snapshot_dir: <span class="shell-path">./snapshots</span>
+  format: oscal
+  sign_commits: true
+  signing_key_id: <span class="json-str">ABCDEF1234567890</span>
+
+lean:
+  project_dir: <span class="shell-path">./lean</span>
+
+logging:
+  level: INFO</code></pre>
+  </div>
+
+</section>
+
+</div><!-- /.container -->
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  FOOTER                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">FedCloud FVG</div>
+        <p class="footer-tagline">
+          Formal Verification Gateway for continuous federal cloud authorization.
+          Replacing compliance narratives with machine-checked proofs.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="https://github.com/fedcloud/formal-verification-gateway" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+          <li><a href="https://github.com/fedcloud/formal-verification-gateway/releases" target="_blank" rel="noopener noreferrer">Releases &amp; Changelog</a></li>
+          <li><a href="https://github.com/fedcloud/formal-verification-gateway/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
+          <li><a href="https://leanprover.github.io/lean4/doc/" target="_blank" rel="noopener noreferrer">Lean 4 Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Standards</h5>
+        <ul>
+          <li><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r5.pdf" target="_blank" rel="noopener noreferrer">NIST SP 800-53 Rev 5</a></li>
+          <li><a href="https://pages.nist.gov/OSCAL/" target="_blank" rel="noopener noreferrer">OSCAL 1.1</a></li>
+          <li><a href="https://www.fedramp.gov/program-basics/fedramp-marketplace/" target="_blank" rel="noopener noreferrer">FedRAMP High Baseline</a></li>
+          <li><a href="https://csrc.nist.gov/projects/cryptographic-module-validation-program" target="_blank" rel="noopener noreferrer">FIPS 140-3 CMVP</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        FedCloud Formal Verification Gateway. Documentation generated 2026-06-29.
+        Not an official U.S. Government publication.
+      </p>
+      <span class="footer-version">v1.0.0-rc1 &nbsp;&bull;&nbsp; Lean 4.14.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
