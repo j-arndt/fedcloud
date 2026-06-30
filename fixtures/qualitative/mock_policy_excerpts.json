@@ -1,0 +1,40 @@
+{
+  "excerpts": [
+    {
+      "source": "FedRAMP 20x Baseline Handbook",
+      "section": "Personnel Security Requirements",
+      "page": 42,
+      "content": "All personnel with access to federal information systems must undergo background investigations commensurate with the risk level of the position. Access must not be provisioned until the investigation is adjudicated favorably."
+    },
+    {
+      "source": "FedRAMP 20x Baseline Handbook",
+      "section": "Security Awareness Training",
+      "page": 55,
+      "content": "All system users must complete security awareness training before being granted access to the system and at least annually thereafter. Training must cover federal privacy requirements and organizational security policies."
+    },
+    {
+      "source": "FedRAMP 20x Baseline Handbook",
+      "section": "Incident Response",
+      "page": 78,
+      "content": "The organization must have the capability to detect, analyze, and respond to information security incidents within defined timeframes. Incidents meeting federal reporting thresholds must be reported within 24 hours."
+    },
+    {
+      "source": "FedRAMP 20x Baseline Handbook",
+      "section": "Contingency Planning",
+      "page": 91,
+      "content": "The organization must test its contingency plan at least annually. Recovery time objectives and recovery point objectives must be met during testing exercises."
+    },
+    {
+      "source": "FedRAMP 20x Baseline Handbook",
+      "section": "Supply Chain Risk Management",
+      "page": 108,
+      "content": "The organization must maintain a current Software Bill of Materials for all deployed components. Critical vulnerabilities in third-party components must be assessed for reachability within the deployment architecture."
+    },
+    {
+      "source": "Corporate Security Policy v4.2",
+      "section": "NDA Requirements",
+      "page": 12,
+      "content": "All employees and contractors must execute a non-disclosure agreement prior to being granted access to any information system containing federal data."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "incidents": [
+    {
+      "incident_id": "INC-2026-042",
+      "severity": "high",
+      "alert_time": "2026-06-15T14:23:00Z",
+      "triage_time": "2026-06-15T14:45:00Z",
+      "time_to_triage_hours": 0.37,
+      "requires_federal_report": false,
+      "reported_to_federal": false,
+      "description": "Anomalous API call pattern detected from service account"
+    },
+    {
+      "incident_id": "INC-2026-043",
+      "severity": "critical",
+      "alert_time": "2026-06-20T08:00:00Z",
+      "triage_time": "2026-06-20T08:12:00Z",
+      "time_to_triage_hours": 0.2,
+      "requires_federal_report": true,
+      "reported_to_federal": true,
+      "description": "Unauthorized access attempt to production database"
+    }
+  ],
+  "post_mortems": [
+    {
+      "incident_id": "INC-2026-043",
+      "author": "SRE Team",
+      "date": "2026-06-22",
+      "summary": "Unauthorized access attempt blocked by IAM policy. Source IP traced to known scanner. No data exposure. WAF rule updated.",
+      "root_cause": "Missing rate limiting on API endpoint",
+      "remediation": "Deployed WAF rate limiting rule, rotated affected credentials"
+    }
+  ]
+}

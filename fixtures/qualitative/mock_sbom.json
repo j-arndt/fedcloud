@@ -1,0 +1,39 @@
+{
+  "sbom": {
+    "bomFormat": "CycloneDX",
+    "specVersion": "1.5",
+    "components": [
+      {"name": "flask", "version": "3.0.3", "type": "library", "purl": "pkg:pypi/flask@3.0.3"},
+      {"name": "boto3", "version": "1.34.100", "type": "library", "purl": "pkg:pypi/boto3@1.34.100"},
+      {"name": "cryptography", "version": "42.0.5", "type": "library", "purl": "pkg:pypi/cryptography@42.0.5"},
+      {"name": "requests", "version": "2.31.0", "type": "library", "purl": "pkg:pypi/requests@2.31.0"},
+      {"name": "psycopg2", "version": "2.9.9", "type": "library", "purl": "pkg:pypi/psycopg2@2.9.9"}
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "cve_id": "CVE-2026-00001",
+      "package": "requests",
+      "cvss_score": 5.3,
+      "mitigated": true,
+      "reachable_in_architecture": true,
+      "risk_justification": "Patched in next release cycle, WAF mitigates attack vector"
+    },
+    {
+      "cve_id": "CVE-2026-00002",
+      "package": "cryptography",
+      "cvss_score": 9.8,
+      "mitigated": false,
+      "reachable_in_architecture": false,
+      "risk_justification": "Affected code path not reachable within isolated VPC architecture"
+    },
+    {
+      "cve_id": "CVE-2026-00003",
+      "package": "flask",
+      "cvss_score": 4.1,
+      "mitigated": true,
+      "reachable_in_architecture": true,
+      "risk_justification": "Low severity, mitigated by input validation middleware"
+    }
+  ]
+}

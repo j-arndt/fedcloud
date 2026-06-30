@@ -1,0 +1,25 @@
+{
+  "training_records": [
+    {
+      "user_id": "admin-ops",
+      "course_id": "SEC-FED-2026",
+      "completion_date": "2026-03-15",
+      "covers_federal_privacy": true,
+      "covers_security_fundamentals": true,
+      "days_since_completion": 106
+    },
+    {
+      "user_id": "dev-lead",
+      "course_id": "SEC-FED-2026",
+      "completion_date": "2026-01-10",
+      "covers_federal_privacy": true,
+      "covers_security_fundamentals": true,
+      "days_since_completion": 170
+    }
+  ],
+  "active_admins": [
+    {"user_id": "admin-ops", "arn": "arn:aws:iam::123456789012:user/admin-ops", "role": "SystemAdministrator"},
+    {"user_id": "dev-lead", "arn": "arn:aws:iam::123456789012:user/dev-lead", "role": "DevOpsLead"},
+    {"user_id": "new-admin", "arn": "arn:aws:iam::123456789012:user/new-admin", "role": "SystemAdministrator"}
+  ]
+}

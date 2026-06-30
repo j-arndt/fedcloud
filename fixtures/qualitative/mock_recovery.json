@@ -1,0 +1,30 @@
+{
+  "dr_exercises": [
+    {
+      "exercise_id": "DR-2026-H1",
+      "date": "2026-03-15",
+      "rto_target_hours": 4,
+      "rto_actual_hours": 2.5,
+      "rpo_target_hours": 1,
+      "rpo_actual_hours": 0.5,
+      "overall_success": true,
+      "components_tested": ["aurora-postgresql", "eks-cluster", "s3-audit-logs", "elasticache"]
+    }
+  ],
+  "backup_validations": [
+    {
+      "backup_id": "BKP-RDS-2026-0615",
+      "resource": "aurora-postgresql-prod",
+      "restore_verified": true,
+      "integrity_check_passed": true,
+      "validation_date": "2026-06-15"
+    },
+    {
+      "backup_id": "BKP-S3-2026-0615",
+      "resource": "s3-audit-logs-prod",
+      "restore_verified": true,
+      "integrity_check_passed": true,
+      "validation_date": "2026-06-15"
+    }
+  ]
+}

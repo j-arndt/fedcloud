@@ -1,0 +1,40 @@
+{
+  "background_checks": [
+    {
+      "employee_id": "EMP-001",
+      "name": "Alice Chen",
+      "status": "cleared",
+      "date": "2026-05-12",
+      "clearance_id": "BG-99182",
+      "vendor": "Sterling Investigations",
+      "scope": "public_trust"
+    },
+    {
+      "employee_id": "EMP-002",
+      "name": "Bob Martinez",
+      "status": "cleared",
+      "date": "2026-04-20",
+      "clearance_id": "BG-99183",
+      "vendor": "Sterling Investigations",
+      "scope": "public_trust"
+    },
+    {
+      "employee_id": "EMP-003",
+      "name": "Carol Davis",
+      "status": "pending",
+      "date": "",
+      "clearance_id": "",
+      "vendor": "Sterling Investigations",
+      "scope": "public_trust"
+    }
+  ],
+  "nda_records": [
+    {"employee_id": "EMP-001", "signed": true, "date": "2026-05-10", "document_id": "NDA-2026-001"},
+    {"employee_id": "EMP-002", "signed": true, "date": "2026-04-18", "document_id": "NDA-2026-002"},
+    {"employee_id": "EMP-003", "signed": false, "date": "", "document_id": ""}
+  ],
+  "iam_provisioning": [
+    {"employee_id": "EMP-001", "provisioned_date": "2026-05-13", "role": "developer", "arn": "arn:aws:iam::123456789012:user/achen"},
+    {"employee_id": "EMP-002", "provisioned_date": "2026-04-21", "role": "sre", "arn": "arn:aws:iam::123456789012:user/bmartinez"}
+  ]
+}
