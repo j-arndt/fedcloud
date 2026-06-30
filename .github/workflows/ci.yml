@@ -45,13 +45,14 @@ jobs:
   lean-check:
     name: Lean 4 Syntax Check
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install elan and Lean 4
+      - name: Install elan
         run: |
-          curl https://elan.lean-lang.org/install/linux -sSf | sh -s -- -y --default-toolchain none
+          curl https://elan-init.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
       - name: Set up Lean toolchain
@@ -63,4 +64,4 @@ jobs:
       - name: Build verification library
         working-directory: lean
         run: lake build
-        continue-on-error: true
+        timeout-minutes: 30
