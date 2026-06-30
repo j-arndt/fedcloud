@@ -47,6 +47,31 @@
     --purple-badge:#ede9fe;
     --purple-text: #5b21b6;
 
+    --rose:        #f43f5e;
+    --rose-bg:     #fff1f2;
+    --rose-badge:  #ffe4e6;
+    --rose-text:   #9f1239;
+
+    --teal:        #14b8a6;
+    --teal-bg:     #f0fdfa;
+    --teal-badge:  #ccfbf1;
+    --teal-text:   #0f5240;
+
+    --orange:      #f97316;
+    --orange-bg:   #fff7ed;
+    --orange-badge:#ffedd5;
+    --orange-text: #7c2d12;
+
+    --indigo:      #6366f1;
+    --indigo-bg:   #eef2ff;
+    --indigo-badge:#e0e7ff;
+    --indigo-text: #3730a3;
+
+    --pink:        #ec4899;
+    --pink-bg:     #fdf2f8;
+    --pink-badge:  #fce7f3;
+    --pink-text:   #831843;
+
     --code-bg:     #1e293b;
     --code-border: #334155;
 
@@ -507,6 +532,11 @@
   .badge-green  { background: var(--green-badge);  color: var(--green-text);  border: 1px solid #6ee7b7; }
   .badge-amber  { background: var(--amber-badge);  color: var(--amber-text);  border: 1px solid #fcd34d; }
   .badge-purple { background: var(--purple-badge); color: var(--purple-text); border: 1px solid #c4b5fd; }
+  .badge-rose   { background: var(--rose-badge);   color: var(--rose-text);   border: 1px solid #fda4af; }
+  .badge-teal   { background: var(--teal-badge);   color: var(--teal-text);   border: 1px solid #5eead4; }
+  .badge-orange { background: var(--orange-badge); color: var(--orange-text); border: 1px solid #fdba74; }
+  .badge-indigo { background: var(--indigo-badge); color: var(--indigo-text); border: 1px solid #a5b4fc; }
+  .badge-pink   { background: var(--pink-badge);   color: var(--pink-text);   border: 1px solid #f9a8d4; }
 
   .cluster-body { padding: 1.5rem; }
 
@@ -854,6 +884,162 @@
     margin: 1rem 0;
   }
 
+  /* ─── Hybrid Engine Diagram ────────────────────────────────────────── */
+  .hybrid-diagram {
+    background: var(--navy);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .hybrid-diagram-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate-light);
+    margin-bottom: 1.25rem;
+  }
+
+  .hybrid-flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    min-width: 560px;
+  }
+
+  .hybrid-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .hybrid-box {
+    border-radius: var(--radius);
+    padding: 0.55rem 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  .hybrid-box-ingest {
+    background: rgba(96,165,250,0.15);
+    border: 1px solid rgba(96,165,250,0.3);
+    color: #60a5fa;
+  }
+
+  .hybrid-box-router {
+    background: rgba(251,191,36,0.12);
+    border: 1px solid rgba(251,191,36,0.3);
+    color: #fbbf24;
+  }
+
+  .hybrid-box-lean {
+    background: rgba(52,211,153,0.12);
+    border: 1px solid rgba(52,211,153,0.3);
+    color: #34d399;
+  }
+
+  .hybrid-box-bedrock {
+    background: rgba(167,139,250,0.12);
+    border: 1px solid rgba(167,139,250,0.3);
+    color: #a78bfa;
+  }
+
+  .hybrid-box-oscal {
+    background: rgba(251,113,133,0.12);
+    border: 1px solid rgba(251,113,133,0.3);
+    color: #fb7185;
+  }
+
+  .hybrid-box-ato {
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.3);
+    color: #22c55e;
+  }
+
+  .hybrid-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--slate);
+    font-size: 1rem;
+    font-weight: 300;
+    padding: 0 0.3rem;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .hybrid-split {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .hybrid-split-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .hybrid-split-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: var(--slate-light);
+    padding-right: 0.35rem;
+    white-space: nowrap;
+  }
+
+  /* ─── Guardrails Grid ──────────────────────────────────────────────── */
+  .guardrail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.25rem 0;
+  }
+
+  .guardrail-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.15rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .guardrail-card-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.55rem;
+    display: block;
+  }
+
+  .guardrail-card h4 {
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
+    color: var(--navy);
+  }
+
+  .guardrail-card p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 720px) {
+    .guardrail-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .guardrail-grid { grid-template-columns: 1fr; }
+    .hybrid-flow { min-width: 480px; }
+  }
+
   /* ─── Footer ───────────────────────────────────────────────────────── */
   footer {
     background: var(--navy);
@@ -976,6 +1162,7 @@
       <li><a href="#overview">Overview</a></li>
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#clusters">Security</a></li>
+      <li><a href="#hybrid">Hybrid Engine</a></li>
       <li><a href="#getting-started">Get Started</a></li>
       <li><a href="#oscal">OSCAL Output</a></li>
       <li><a href="#reference">Reference</a></li>
@@ -1594,11 +1781,419 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<!--  4. GETTING STARTED                                                 -->
+<!--  4. HYBRID ENGINE — QUALITATIVE CLUSTERS                            -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="hybrid">
+  <div class="section-header">
+    <div class="section-num">§ 04</div>
+    <div class="section-title-block">
+      <h2>Hybrid Verification Engine</h2>
+      <p>Dual-engine architecture extending formal proofs with qualitative LLM-based verification</p>
+    </div>
+  </div>
+
+  <p>
+    The gateway now operates a <strong>dual-engine architecture</strong>. A Lambda router
+    classifies each incoming telemetry event and dispatches it to the appropriate verification
+    engine. Deterministic, machine-checkable invariants continue to flow through the
+    <strong>Lean&nbsp;4 kernel</strong> (Engine 1). Controls that require contextual judgment
+    — reading narrative documents, evaluating training records, assessing vendor risk — are
+    routed to <strong>Amazon Bedrock LLM agents</strong> powered by Claude (Engine 2). Both
+    engines write structured results to a shared OSCAL Assembler, producing a unified
+    continuous-authorization feed.
+  </p>
+
+  <div class="callout">
+    <strong>Design principle:</strong> Engine 2 never replaces a proof. It produces
+    structured, cited, schema-validated assessments for control families where a formal
+    proof is infeasible — such as verifying that a background-check vendor report meets
+    federal suitability standards, or that an incident timeline satisfies federal reporting
+    thresholds. All Engine 2 output is grounded via RAG against approved policy documents
+    and subject to hallucination detection before it reaches the OSCAL Assembler.
+  </div>
+
+  <!-- Hybrid flow diagram -->
+  <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">Dual-Engine Pipeline</h3>
+  <div class="hybrid-diagram">
+    <div class="hybrid-diagram-label">Data-flow — telemetry to continuous authorization</div>
+    <div class="hybrid-flow">
+      <!-- Node: Raw Telemetry -->
+      <div class="hybrid-node">
+        <div class="hybrid-box hybrid-box-ingest">Raw<br>Telemetry</div>
+      </div>
+      <div class="hybrid-arrow">&#8594;</div>
+      <!-- Node: Lambda Router -->
+      <div class="hybrid-node">
+        <div class="hybrid-box hybrid-box-router">Lambda<br>Router</div>
+      </div>
+      <div class="hybrid-arrow">&#8594;</div>
+      <!-- Forked paths -->
+      <div class="hybrid-split">
+        <div class="hybrid-split-row">
+          <span class="hybrid-split-label">Deterministic?</span>
+          <div class="hybrid-box hybrid-box-lean">Lean 4 Kernel<br>(Engine 1)</div>
+        </div>
+        <div class="hybrid-split-row">
+          <span class="hybrid-split-label">Qualitative?&nbsp;</span>
+          <div class="hybrid-box hybrid-box-bedrock">Bedrock Agents<br>(Claude — Engine 2)</div>
+        </div>
+      </div>
+      <div class="hybrid-arrow">&#8594;</div>
+      <!-- Node: OSCAL Assembler -->
+      <div class="hybrid-node">
+        <div class="hybrid-box hybrid-box-oscal">OSCAL<br>Assembler</div>
+      </div>
+      <div class="hybrid-arrow">&#8594;</div>
+      <!-- Node: Continuous ATO -->
+      <div class="hybrid-node">
+        <div class="hybrid-box hybrid-box-ato">Continuous<br>Authorization</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-grid" style="margin-top: 1.5rem;">
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #fbbf24;"></div>
+        <h4>Lambda Router</h4>
+      </div>
+      <p>Classifies each inbound telemetry event against a control-family routing table.
+      Events carrying structured, enumerable state (IAM sessions, KMS metadata, log
+      stream health) are dispatched to Engine 1. Events requiring narrative interpretation
+      (background-check PDFs, LMS records, incident timelines) are dispatched to Engine 2.</p>
+    </div>
+    <div class="stage-card">
+      <div class="stage-card-header">
+        <div class="stage-card-dot" style="background: #a78bfa;"></div>
+        <h4>Bedrock Agent Execution</h4>
+      </div>
+      <p>Each qualitative cluster runs as a dedicated Amazon Bedrock Agent with a
+      curated tool-set: a policy RAG retriever, a document parser, a schema validator,
+      and a citation verifier. Agents operate at temperature 0 and must produce a
+      JSON-schema-conformant assessment object before the result is accepted.</p>
+    </div>
+  </div>
+
+  <!-- ─── Qualitative Cluster 1: Personnel Security ─────────────────── -->
+  <h3 style="margin-top: 2.5rem; margin-bottom: 1rem;">Qualitative Security Clusters (Engine 2)</h3>
+  <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+    Five control families verified by Bedrock LLM agents. Each agent grounds its
+    assessment in RAG-retrieved policy documents and emits a structured, schema-validated
+    result that is indistinguishable in the OSCAL output stream from an Engine 1 receipt.
+  </p>
+
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(244,63,94,0.12);">&#x1F464;</div>
+        <div>
+          <h3>Personnel Security</h3>
+          <p>KSI-PS &mdash; PS-1, PS-2, PS-3, PS-4, PS-5, PS-6, PS-7, PS-8</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-rose">PS</span>
+        <span class="badge badge-rose">KSI-PS</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        The Personnel Security agent parses background check vendor reports in PDF and
+        structured JSON formats, validates NDA signature timestamps against onboarding
+        records, and cross-references IAM provisioning events with adjudication
+        completion dates to detect out-of-sequence access grants.
+      </p>
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>Background check vendor API — investigation status and adjudication records</li>
+            <li>HR system — employee onboarding dates, role changes, terminations</li>
+            <li>DocuSign / e-signature platform — NDA completion timestamps</li>
+            <li>IAM provisioning logs — account creation and group membership events</li>
+            <li>Contractor management system — periodic reinvestigation schedules</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Assessed</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            The agent determines whether each active system user has a completed and
+            adjudicated background investigation on file prior to their first IAM
+            provisioning event. It validates that NDA signatures precede system access
+            grants, and that periodic reinvestigation schedules are met for personnel
+            in high-impact roles. All findings are cited to specific vendor report IDs
+            and HR record timestamps.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Qualitative Cluster 2: Cybersecurity Education ───────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(20,184,166,0.12);">&#x1F393;</div>
+        <div>
+          <h3>Cybersecurity Education and Training</h3>
+          <p>KSI-CED &mdash; AT-1, AT-2, AT-3, AT-4</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-teal">AT</span>
+        <span class="badge badge-teal">KSI-CED</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        The Cybersecurity Education agent validates LMS training completion records,
+        checks annual recertification windows against the list of active privileged
+        administrators, and flags accounts whose role-specific training has lapsed
+        based on the configured recertification schedule.
+      </p>
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>LMS (Learning Management System) — course completion records and scores</li>
+            <li>IAM role roster — active accounts holding privileged role bindings</li>
+            <li>Training policy document — role-to-curriculum mapping (RAG corpus)</li>
+            <li>HR system — new-hire dates for initial training window enforcement</li>
+            <li>Course catalog — recertification frequency per curriculum track</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Assessed</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            The agent cross-references every active privileged account against the LMS
+            completion registry. It computes whether each user's most recent completion
+            date falls within the recertification window required by their role. Lapsed
+            accounts are surfaced as FAIL findings with the specific training track,
+            last-completion date, and number of days overdue cited in the output.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Qualitative Cluster 3: Incident Response ─────────────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(249,115,22,0.12);">&#x1F6A8;</div>
+        <div>
+          <h3>Incident Response</h3>
+          <p>KSI-INR &mdash; IR-1, IR-2, IR-3, IR-4, IR-5, IR-6, IR-7, IR-8</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-orange">IR</span>
+        <span class="badge badge-orange">KSI-INR</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        The Incident Response agent reconstructs incident timelines from ticketing
+        system data, calculates time-to-triage and time-to-containment metrics,
+        and evaluates whether federal reporting thresholds (CISA 72-hour, OMB
+        Memoranda) were met for each incident classified as a federal breach.
+      </p>
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>ITSM / ticketing system — incident records, status transitions, timestamps</li>
+            <li>SIEM — correlated event timeline and severity classification</li>
+            <li>On-call system — escalation records and first-responder acknowledgment</li>
+            <li>Federal reporting portal — submitted CISA incident reports</li>
+            <li>Incident response plan (RAG corpus) — classification thresholds and SLA definitions</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Assessed</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            For each closed incident in the review window, the agent reconstructs the
+            event timeline and computes triage latency, containment time, and — where
+            applicable — the elapsed time before federal notification. Incidents that
+            meet the federal breach definition but lack a corresponding CISA report
+            within the 72-hour window are flagged as FAIL with the incident ID,
+            classification rationale, and elapsed notification time cited.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Qualitative Cluster 4: Recovery Planning ─────────────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(99,102,241,0.12);">&#x1F504;</div>
+        <div>
+          <h3>Recovery Planning</h3>
+          <p>KSI-RPL &mdash; CP-1, CP-2, CP-4, CP-6, CP-7, CP-9, CP-10</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-indigo">CP</span>
+        <span class="badge badge-indigo">KSI-RPL</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        The Recovery Planning agent evaluates disaster recovery drill results,
+        validates that achieved Recovery Time Objectives (RTO) and Recovery Point
+        Objectives (RPO) fall within the thresholds authorized in the system's
+        Contingency Plan, and flags plans that have not been tested within the
+        required annual exercise window.
+      </p>
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>DR drill reports — tabletop and live-failover exercise results</li>
+            <li>Contingency Plan document (RAG corpus) — authorized RTO/RPO values</li>
+            <li>Backup system API — last successful backup timestamps and restore test logs</li>
+            <li>Alternative site readiness records — hot/warm/cold standby status</li>
+            <li>Exercise schedule — planned vs. executed drill calendar</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Assessed</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            The agent extracts the achieved RTO and RPO from each drill report and
+            compares them against the plan-authorized thresholds retrieved via RAG.
+            It also checks that the most recent live-failover exercise falls within
+            the 12-month window required by CP-4. Breaches are cited to the specific
+            drill report, the authorized threshold, and the deviation magnitude.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Qualitative Cluster 5: Supply Chain ──────────────────────── -->
+  <div class="cluster-block">
+    <div class="cluster-header">
+      <div class="cluster-title-group">
+        <div class="cluster-icon" style="background: rgba(236,72,153,0.12);">&#x1F4E6;</div>
+        <div>
+          <h3>Supply Chain Risk Management</h3>
+          <p>KSI-TPR &mdash; SA-4, SA-5, SA-9, SA-11, SR-1, SR-2, SR-3</p>
+        </div>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-pink">SA</span>
+        <span class="badge badge-pink">SR</span>
+        <span class="badge badge-pink">KSI-TPR</span>
+      </div>
+    </div>
+    <div class="cluster-body">
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+        The Supply Chain agent ingests CycloneDX and SPDX Software Bill of Materials
+        (SBOM) documents, performs contextual CVE analysis against each declared
+        component, evaluates vendor security attestations against contract requirements,
+        and generates risk-acceptance narratives for findings that fall within
+        authorized residual risk thresholds.
+      </p>
+      <div class="cluster-grid">
+        <div class="telemetry-box">
+          <h4>Telemetry Sources</h4>
+          <ul>
+            <li>CycloneDX / SPDX SBOM files — component inventory per release artifact</li>
+            <li>NVD / OSV vulnerability feeds — CVE metadata and severity scores</li>
+            <li>Vendor security attestation portal — SOC 2 and FedRAMP authorization status</li>
+            <li>Procurement contracts (RAG corpus) — security requirements and SLA terms</li>
+            <li>Container registry — image provenance and signing chain records</li>
+          </ul>
+        </div>
+        <div class="output-box">
+          <div class="output-verdict">Assessed</div>
+          <h4 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate); margin-bottom: 0.5rem;">Verification Semantics</h4>
+          <p>
+            The agent resolves each SBOM component against current vulnerability feeds
+            and evaluates CVE severity in the context of the component's deployment
+            posture (internet-facing, data-processing, internal-only). Critical CVEs
+            without an accepted exception or remediation ticket are flagged as FAIL.
+            For accepted risks, the agent generates a structured risk-acceptance
+            narrative with citations to the relevant CVE ID, authorized threshold,
+            and approving official.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Guardrails ────────────────────────────────────────────────── -->
+  <h3 style="margin-top: 2rem; margin-bottom: 0.5rem;">Engine 2 Guardrails</h3>
+  <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+    Five layered controls prevent hallucination, enforce output structure, and bound
+    every claim to a verifiable source before results reach the OSCAL Assembler.
+  </p>
+
+  <div class="guardrail-grid">
+    <div class="guardrail-card">
+      <span class="guardrail-card-icon">&#x1F4DA;</span>
+      <h4>RAG Grounding</h4>
+      <p>Every assessment is grounded via Retrieval-Augmented Generation against an
+      approved, versioned corpus of policy documents, control baselines, and
+      system-specific plans. Responses that cannot cite a retrieved passage are
+      rejected at the tool layer before reaching the schema validator.</p>
+    </div>
+    <div class="guardrail-card">
+      <span class="guardrail-card-icon">&#x1F321;</span>
+      <h4>Zero-Temperature Determinism</h4>
+      <p>All Bedrock agent invocations use <code>temperature=0</code> and a fixed
+      random seed. This eliminates stochastic variation between evaluation runs,
+      making qualitative assessments reproducible for the same input telemetry
+      and the same RAG retrieval set.</p>
+    </div>
+    <div class="guardrail-card">
+      <span class="guardrail-card-icon">&#x1F4CB;</span>
+      <h4>JSON Schema Enforcement</h4>
+      <p>Each agent is constrained to emit a response that conforms to a versioned
+      JSON schema before the result is accepted. Schema validation runs in the
+      Lambda post-processor. A schema violation causes the run to be retried once;
+      a second violation raises a pipeline <code>ERROR</code> verdict.</p>
+    </div>
+    <div class="guardrail-card">
+      <span class="guardrail-card-icon">&#x1F50D;</span>
+      <h4>Citation Verification</h4>
+      <p>Every factual claim in the assessment output must reference a source ID
+      (document chunk, vendor record ID, or HR record timestamp). A citation
+      verifier tool checks that each cited ID exists in the retrieval store.
+      Uncited claims cause the agent to revise its output before it is accepted.</p>
+    </div>
+    <div class="guardrail-card">
+      <span class="guardrail-card-icon">&#x26A0;</span>
+      <h4>Hallucination Detection</h4>
+      <p>A lightweight consistency checker compares each factual assertion against
+      the raw retrieved passages using a secondary Bedrock call. Assertions that
+      contradict or are unsupported by the retrieved context are flagged and the
+      affected finding is downgraded to <code>INCONCLUSIVE</code> pending human review.</p>
+    </div>
+    <div class="guardrail-card">
+      <span class="guardrail-card-icon">&#x1F512;</span>
+      <h4>IAM Scope Isolation</h4>
+      <p>Each Bedrock agent executes under a dedicated IAM execution role with
+      access limited to the specific S3 prefixes, DynamoDB tables, and Knowledge
+      Base IDs required by its cluster. No agent role has cross-cluster data
+      access or write permissions outside its designated OSCAL output path.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!--  5. GETTING STARTED                                                 -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <section class="section" id="getting-started">
   <div class="section-header">
-    <div class="section-num">§ 04</div>
+    <div class="section-num">§ 05</div>
     <div class="section-title-block">
       <h2>Getting Started</h2>
       <p>Prerequisites, installation, local testing, and Docker deployment</p>
@@ -1769,7 +2364,7 @@
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <section class="section" id="oscal">
   <div class="section-header">
-    <div class="section-num">§ 05</div>
+    <div class="section-num">§ 06</div>
     <div class="section-title-block">
       <h2>OSCAL Output</h2>
       <p>Three authorization artifacts — structure, semantics, and provenance</p>
@@ -1886,7 +2481,7 @@
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <section class="section" id="reference">
   <div class="section-header">
-    <div class="section-num">§ 06</div>
+    <div class="section-num">§ 07</div>
     <div class="section-title-block">
       <h2>Pipeline Reference</h2>
       <p>Complete command-line options for <code>run_pipeline.py</code></p>
@@ -1920,7 +2515,7 @@
         <td>--clusters</td>
         <td><code>FVG_CLUSTERS</code></td>
         <td>all</td>
-        <td>Space-separated list of clusters to evaluate: <code>identity</code>, <code>crypto</code>, <code>architecture</code>, <code>monitoring</code></td>
+        <td>Space-separated list of clusters to evaluate. Engine 1 (Lean 4): <code>identity</code>, <code>crypto</code>, <code>architecture</code>, <code>monitoring</code>. Engine 2 (Bedrock): <code>personnel</code>, <code>training</code>, <code>incident</code>, <code>recovery</code>, <code>supplychain</code></td>
       </tr>
       <tr>
         <td>--oscal-out</td>
@@ -2044,6 +2639,47 @@
     </tbody>
   </table>
 
+  <h3 style="margin-top: 1.75rem;">Project Directory Structure</h3>
+  <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+    The repository root after the hybrid-engine upgrade. The new <code>agents/</code>
+    directory houses one Bedrock agent definition per qualitative cluster.
+  </p>
+
+  <div class="code-block-wrap shell-block">
+    <div class="code-block-header">
+      <span class="code-lang">shell &mdash; repository layout</span>
+      <div class="code-dots">
+        <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
+      </div>
+    </div>
+    <pre><code>formal-verification-gateway/
+<span class="shell-comment">├── agents/                        # Engine 2 — Bedrock agent definitions</span>
+<span class="shell-comment">│   ├── personnel/                 # KSI-PS: background check + IAM timing</span>
+<span class="shell-comment">│   │   ├── agent_spec.json        # Bedrock Agent API definition</span>
+<span class="shell-comment">│   │   ├── action_groups/         # Lambda-backed tool implementations</span>
+<span class="shell-comment">│   │   └── rag_corpus/            # Approved policy docs for RAG grounding</span>
+<span class="shell-comment">│   ├── training/                  # KSI-CED: LMS records + recertification</span>
+<span class="shell-comment">│   ├── incident/                  # KSI-INR: timeline reconstruction + federal reporting</span>
+<span class="shell-comment">│   ├── recovery/                  # KSI-RPL: DR drill evaluation + RTO/RPO</span>
+<span class="shell-comment">│   └── supplychain/               # KSI-TPR: SBOM ingestion + CVE analysis</span>
+<span class="shell-comment">├── lean/                          # Engine 1 — Lean 4 theorem library</span>
+<span class="shell-comment">│   └── FedCloud/</span>
+<span class="shell-comment">│       ├── Types.lean             # Inductive data types for infrastructure state</span>
+<span class="shell-comment">│       └── Invariants.lean        # Security invariant theorems</span>
+<span class="shell-comment">├── src/                           # Python pipeline orchestrator</span>
+<span class="shell-comment">│   ├── adapters/                  # Telemetry source adapters</span>
+<span class="shell-comment">│   ├── lean_bridge/               # JSON → Lean 4 type translator</span>
+<span class="shell-comment">│   ├── bedrock_runner/            # Bedrock agent invocation + guardrails</span>
+<span class="shell-comment">│   └── oscal_writer/              # OSCAL artifact assembler</span>
+<span class="shell-comment">├── lambda/                        # Lambda Router — cluster classification</span>
+<span class="shell-comment">├── iam/                           # IAM role policies (read-only + per-agent)</span>
+<span class="shell-comment">├── tests/</span>
+<span class="shell-comment">│   ├── unit/</span>
+<span class="shell-comment">│   └── integration/</span>
+<span class="shell-comment">├── run_pipeline.py                # CLI entry point</span>
+<span class="shell-comment">└── fvg-config.yml                 # Configuration file (see above)</span></code></pre>
+  </div>
+
   <h3 style="margin-top: 1.75rem;">Configuration File Format</h3>
 
   <div class="code-block-wrap">
@@ -2060,10 +2696,17 @@ aws:
 
 pipeline:
   clusters:
+    <span class="shell-comment"># Engine 1 — Lean 4 deterministic verification</span>
     - identity
     - crypto
     - architecture
     - monitoring
+    <span class="shell-comment"># Engine 2 — Bedrock qualitative verification</span>
+    - personnel
+    - training
+    - incident
+    - recovery
+    - supplychain
   parallel: 2
   timeout: 300
 
@@ -2076,6 +2719,12 @@ output:
 
 lean:
   project_dir: <span class="shell-path">./lean</span>
+
+bedrock:
+  model_id: <span class="json-str">anthropic.claude-3-5-sonnet-20241022-v2:0</span>
+  temperature: 0
+  knowledge_base_id: <span class="json-str">KBXXXXXXXX</span>
+  agents_dir: <span class="shell-path">./agents</span>
 
 logging:
   level: INFO</code></pre>

@@ -4,36 +4,53 @@
 [![Pages](https://github.com/j-arndt/fedcloud/actions/workflows/pages.yml/badge.svg)](https://j-arndt.github.io/fedcloud/)
 [![Lean 4](https://img.shields.io/badge/Lean-4.28.0-blue)](https://lean-lang.org/)
 [![OSCAL](https://img.shields.io/badge/OSCAL-1.1.2-green)](https://pages.nist.gov/OSCAL/)
-[![Python](https://img.shields.io/badge/Python-3.10+-yellow)](https://python.org/)
+[![Python](https://img.shields.io/badge/Python-3.9+-yellow)](https://python.org/)
+[![Tests](https://img.shields.io/badge/Tests-64-brightgreen)](https://github.com/j-arndt/fedcloud/actions/workflows/ci.yml)
 
 **Replace compliance narratives with mathematical proofs.**
 
 > **[Read the full documentation →](https://j-arndt.github.io/fedcloud/)**
 
-FedCloud automates continuous compliance verification by converting live infrastructure state into mathematical types and evaluating them against formal invariant theorems using the [Lean 4](https://lean-lang.org/) interactive theorem prover. Instead of periodic manual assessments, the system provides deterministic, cryptographically signed proof artifacts in [OSCAL](https://pages.nist.gov/OSCAL/) format.
+FedCloud automates continuous compliance verification using a hybrid dual-engine architecture: a [Lean 4](https://lean-lang.org/) kernel for deterministic mathematical proofs on structural controls, and [Amazon Bedrock](https://aws.amazon.com/bedrock/) agents for qualitative semantic analysis on policy-heavy controls. Both engines produce outputs that are assembled into [OSCAL](https://pages.nist.gov/OSCAL/) artifacts for continuous authorization.
 
 ---
 
 ## Architecture
 
 ```
-┌────────────────────────┐      ┌────────────────────────┐      ┌────────────────────────┐
-│  1. State Ingestion    │      │    2. Translation      │      │    3. Lean 4 Kernel    │
-│  AWS CloudTrail/Config │ ───> │  Python AST Parser     │ ───> │   Verification Engine  │
-│  App Schemas           │      │  (JSON → Lean Types)   │      │  (Invariant Proofs)    │
-└────────────────────────┘      └────────────────────────┘      └───────────┬────────────┘
-                                                                            │
-                                                                            ▼
-┌────────────────────────┐      ┌────────────────────────┐      ┌────────────────────────┐
-│  6. Federal Gateway    │      │  5. Trust Center API   │      │ 4. Verification Output │
-│  Continuous            │ <─── │   OSCAL Repository     │ <─── │ Cryptographic Signed   │
-│  Authorization (ConMon)│      │   (SSP + AR)           │      │ JSON Receipt Artifact  │
-└────────────────────────┘      └────────────────────────┘      └────────────────────────┘
+                               ┌────────────────────────┐
+                               │   Raw Telemetry Ingest  │
+                               └───────────┬────────────┘
+                                           │
+                    ┌──────────────────────┴──────────────────────┐
+                    ▼                                             ▼
+       ┌────────────────────────┐                    ┌────────────────────────┐
+       │     Lean 4 Kernel      │                    │   Amazon Bedrock       │
+       │  (Deterministic Proofs)│                    │   (Qualitative Agents) │
+       └────────────┬───────────┘                    └────────────┬───────────┘
+                    │                                             │
+                    └──────────────────┬──────────────────────────┘
+                                       ▼
+                          ┌────────────────────────┐
+                          │   OSCAL Assembler       │
+                          │  (Unified Compliance)   │
+                          └────────────────────────┘
 ```
+
+## Hybrid Architecture
+
+The system routes each control cluster to the appropriate verification engine based on control type:
+
+- **Deterministic controls** (structural, binary-verifiable) go to the **Lean 4 Kernel**, which produces mathematical proofs. Same input always yields the same result, and every proof is independently checkable.
+- **Qualitative controls** (policy-heavy, context-dependent) go to **Amazon Bedrock Agents**, which perform semantic analysis grounded via RAG retrieval against policy document knowledge bases. Guardrails validate outputs and suppress hallucinations before results are accepted.
+
+A router (`agents/router.py`) classifies incoming telemetry and dispatches each cluster to the correct engine. Both engines emit structured findings that the OSCAL Assembler merges into a unified SSP and Assessment Results document.
 
 ## Security Clusters
 
-The gateway enforces four deterministic invariant theorems:
+The gateway covers nine security clusters across two engines.
+
+### Deterministic Clusters (Lean 4 Kernel)
 
 | Cluster | Invariant | Controls |
 |---------|-----------|----------|
@@ -44,12 +61,25 @@ The gateway enforces four deterministic invariant theorems:
 
 Each invariant is expressed as a formal Lean 4 theorem with a corresponding decision procedure that produces concrete verification results.
 
+### Qualitative Clusters (Amazon Bedrock Agents)
+
+| Cluster | Analysis Scope | Controls |
+|---------|----------------|----------|
+| **Personnel Security** | Background checks, NDA verification, IAM provisioning timing | PS-1 through PS-8 |
+| **Cybersecurity Education** | Training completion, recertification windows | AT-1 through AT-4 |
+| **Incident Response** | Timeline reconstruction, triage metrics, federal reporting | IR-1 through IR-8 |
+| **Recovery Planning** | DR drill validation, RTO/RPO verification | CP-1, CP-2, CP-4, CP-6, CP-7, CP-9, CP-10 |
+| **Supply Chain** | SBOM analysis, CVE contextualization, risk narratives | SA-4, SA-5, SA-9, SA-11, SR-1, SR-2, SR-3 |
+
+Each Bedrock agent retrieves relevant policy documents from the knowledge base, applies semantic reasoning, and returns structured findings with citations.
+
 ## Quick Start
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.9+
 - [Lean 4](https://lean-lang.org/lean4/doc/setup.html) (for proof compilation)
+- AWS credentials with Bedrock access (for qualitative agent clusters)
 
 ### Run the Pipeline (Mock Mode)
 
@@ -58,8 +88,8 @@ Each invariant is expressed as a formal Lean 4 theorem with a corresponding deci
 git clone https://github.com/j-arndt/fedcloud.git
 cd fedcloud
 
-# Run all tests
-python -m pytest translator/tests/ oscal/tests/ -v
+# Run all tests (64 total across Lean 4 and Bedrock agent suites)
+python -m pytest translator/tests/ oscal/tests/ agents/tests/ -v
 
 # Execute the full pipeline against mock fixtures
 python -m scripts.run_pipeline --mode mock --state fixtures/mock_aws_topology.json
@@ -106,6 +136,21 @@ fedcloud/
 │           ├── Crypto.lean        # Cryptographic protection invariant
 │           ├── Architecture.lean  # Immutability invariant
 │           └── Monitoring.lean    # Continuous monitoring invariant
+├── agents/                        # Bedrock qualitative verification engine
+│   ├── base_agent.py              # Shared agent with RAG + citations
+│   ├── config.py                  # Bedrock model and routing config
+│   ├── router.py                  # Deterministic vs qualitative router
+│   ├── lambda_handler.py          # AWS Lambda entry point
+│   ├── guardrails.py              # Output validation and hallucination checks
+│   ├── knowledge_base.py          # RAG policy document retrieval
+│   ├── clusters/
+│   │   ├── personnel.py           # KSI-PS agent
+│   │   ├── training.py            # KSI-CED agent
+│   │   ├── incident_response.py   # KSI-INR agent
+│   │   ├── recovery.py            # KSI-RPL agent
+│   │   └── supply_chain.py        # KSI-TPR agent
+│   └── tests/
+│       └── test_agents.py         # Agent unit tests
 ├── translator/                    # JSON → Lean translation layer
 │   ├── json_to_lean.py            # Multi-format state translator
 │   ├── state_ingestion.py         # State collection service
