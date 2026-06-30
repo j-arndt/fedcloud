@@ -1,11 +1,14 @@
 # FedCloud — Formal Verification Gateway for Federal Cloud Authorizations
 
-[![CI](https://github.com/j-arndt/fedcloud/actions/workflows/ci.yml/badge.svg)](https://github.com/j-arndt/fedcloud/actions/workflows/ci.yml)
+[![CI](https://github.com/j-arndt/fedcloud/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/j-arndt/fedcloud/actions/workflows/ci.yml)
+[![Pages](https://github.com/j-arndt/fedcloud/actions/workflows/pages.yml/badge.svg)](https://j-arndt.github.io/fedcloud/)
 [![Lean 4](https://img.shields.io/badge/Lean-4.28.0-blue)](https://lean-lang.org/)
 [![OSCAL](https://img.shields.io/badge/OSCAL-1.1.2-green)](https://pages.nist.gov/OSCAL/)
 [![Python](https://img.shields.io/badge/Python-3.10+-yellow)](https://python.org/)
 
 **Replace compliance narratives with mathematical proofs.**
+
+> **[Read the full documentation →](https://j-arndt.github.io/fedcloud/)**
 
 FedCloud automates continuous compliance verification by converting live infrastructure state into mathematical types and evaluating them against formal invariant theorems using the [Lean 4](https://lean-lang.org/) interactive theorem prover. Instead of periodic manual assessments, the system provides deterministic, cryptographically signed proof artifacts in [OSCAL](https://pages.nist.gov/OSCAL/) format.
 
