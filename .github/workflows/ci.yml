@@ -50,18 +50,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install elan
-        run: |
-          curl https://elan-init.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-
-      - name: Set up Lean toolchain
+      - name: Install elan and Lean toolchain
         working-directory: lean
         run: |
+          curl https://elan-init.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          source "$HOME/.elan/env"
           elan toolchain install $(cat lean-toolchain)
           elan default $(cat lean-toolchain)
+          echo "Lean version: $(lean --version)"
 
       - name: Build verification library
         working-directory: lean
-        run: lake build
+        run: |
+          source "$HOME/.elan/env"
+          lake build
         timeout-minutes: 30
